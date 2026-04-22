@@ -6,7 +6,7 @@ Aegis' command-line interface is deliberately small. Each command has a single p
 | ---------------- | --------------------------------------------------------------- |
 | [`init`](init.md)           | Create `.aegis/aegis.yaml` with secure defaults         |
 | [`install`](install.md)     | Install Git hooks that dispatch to `aegis run`          |
-| [`uninstall`](install.md#uninstall) | Remove Aegis-installed hooks                    |
+| [`uninstall`](install.md#aegis-uninstall) | Remove Aegis-installed hooks              |
 | [`run`](run.md)             | Run all enabled checks (honors `--hook` and `--check`)  |
 | [`doctor`](doctor.md)       | Verify scanner binaries, versions, and SHA256 hashes    |
 | [`baseline`](baseline.md)   | Snapshot current findings into `.aegis/baseline.json`   |

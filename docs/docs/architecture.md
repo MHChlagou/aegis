@@ -59,7 +59,7 @@ The codebase makes this deliberately small:
 4. Add a normalization test that feeds a canned output blob through the adapter and asserts a stable `[]Finding`. Put the blob in `testdata/`.
 5. Write a docs page under `docs/docs/scanners/<name>.md` and add it to `mkdocs.yml`.
 
-The full checklist is in the [contributor guide](contributing.md#adding-a-new-scanner-adapter).
+The full checklist is in [Adding a scanner](adding-a-scanner.md).
 
 ## Testing strategy
 
