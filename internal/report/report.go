@@ -68,22 +68,27 @@ func WriteJSON(w io.Writer, s Summary) error {
 	return enc.Encode(s)
 }
 
+// Writer errors from Fprint* on stdout/stderr are non-actionable, so these
+// helpers swallow them. Keeps the call sites readable.
+func fpf(w io.Writer, format string, args ...any) { _, _ = fmt.Fprintf(w, format, args...) }
+func fpln(w io.Writer, args ...any)               { _, _ = fmt.Fprintln(w, args...) }
+
 // WritePretty emits the human format shown in spec §11.1.
 func WritePretty(w io.Writer, s Summary, color bool, stagedFiles int) {
 	c := palette{enabled: color}
-	fmt.Fprintln(w, c.dim(strings.Repeat("─", 58)))
-	fmt.Fprintf(w, " Aegis %s - repo: %s  stacks: %s\n", version.Version, s.Repo, strings.Join(s.Stacks, ","))
+	fpln(w, c.dim(strings.Repeat("─", 58)))
+	fpf(w, " Aegis %s - repo: %s  stacks: %s\n", version.Version, s.Repo, strings.Join(s.Stacks, ","))
 	if s.Hook != "" {
-		fmt.Fprintf(w, " hook: %s   staged: %d files\n", s.Hook, stagedFiles)
+		fpf(w, " hook: %s   staged: %d files\n", s.Hook, stagedFiles)
 	}
-	fmt.Fprintln(w, c.dim(strings.Repeat("─", 58)))
+	fpln(w, c.dim(strings.Repeat("─", 58)))
 
 	// Summary line per check
 	byCheck := groupByCheck(s.Findings)
 	for _, check := range orderedChecks {
 		fns, ok := byCheck[check]
 		if !ok {
-			fmt.Fprintf(w, "  %s %-16s all clean\n", c.green("✓"), check)
+			fpf(w, "  %s %-16s all clean\n", c.green("✓"), check)
 			continue
 		}
 		blocking := 0
@@ -96,16 +101,16 @@ func WritePretty(w io.Writer, s Summary, color bool, stagedFiles int) {
 		if blocking > 0 {
 			icon = c.red("✖")
 		}
-		fmt.Fprintf(w, "  %s %-16s %d finding(s)    (%d blocking)\n", icon, check, len(fns), blocking)
+		fpf(w, "  %s %-16s %d finding(s)    (%d blocking)\n", icon, check, len(fns), blocking)
 	}
-	fmt.Fprintln(w)
+	fpln(w)
 
 	for _, check := range orderedChecks {
 		fns, ok := byCheck[check]
 		if !ok {
 			continue
 		}
-		fmt.Fprintf(w, "── %s %s\n", check, c.dim(strings.Repeat("─", 58-len(check)-4)))
+		fpf(w, "── %s %s\n", check, c.dim(strings.Repeat("─", 58-len(check)-4)))
 		for _, f := range fns {
 			label := "[WARN] "
 			if f.Blocking {
@@ -115,27 +120,27 @@ func WritePretty(w io.Writer, s Summary, color bool, stagedFiles int) {
 			if f.Line > 0 {
 				loc = fmt.Sprintf("%s:%d", f.File, f.Line)
 			}
-			fmt.Fprintf(w, "  %s%s\n", label, loc)
+			fpf(w, "  %s%s\n", label, loc)
 			if f.RuleID != "" {
-				fmt.Fprintf(w, "    rule:  %s\n", f.RuleID)
+				fpf(w, "    rule:  %s\n", f.RuleID)
 			}
 			if f.Message != "" {
-				fmt.Fprintf(w, "    msg:   %s\n", f.Message)
+				fpf(w, "    msg:   %s\n", f.Message)
 			}
 			if f.Snippet != "" {
-				fmt.Fprintf(w, "    code:  %s\n", f.Snippet)
+				fpf(w, "    code:  %s\n", f.Snippet)
 			}
 			if f.FixSuggest != "" {
-				fmt.Fprintf(w, "    fix:   %s\n", f.FixSuggest)
+				fpf(w, "    fix:   %s\n", f.FixSuggest)
 			}
 		}
-		fmt.Fprintln(w)
+		fpln(w)
 	}
 	if s.Summary.Blocking > 0 {
-		fmt.Fprintf(w, "%s commit blocked - %d blocking finding(s)\n", c.red("✖"), s.Summary.Blocking)
-		fmt.Fprintln(w, "  bypass: AEGIS_SKIP=<checks> AEGIS_REASON=\"...\" git commit")
+		fpf(w, "%s commit blocked - %d blocking finding(s)\n", c.red("✖"), s.Summary.Blocking)
+		fpln(w, "  bypass: AEGIS_SKIP=<checks> AEGIS_REASON=\"...\" git commit")
 	} else {
-		fmt.Fprintf(w, "%s ok - %d non-blocking finding(s)\n", c.green("✓"), s.Summary.Total)
+		fpf(w, "%s ok - %d non-blocking finding(s)\n", c.green("✓"), s.Summary.Total)
 	}
 }
 

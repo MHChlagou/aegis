@@ -37,8 +37,8 @@ func cmdInit() *cobra.Command {
 			}
 			// gitignore overrides.log if there's a .gitignore
 			appendLineIfMissing(filepath.Join(root, ".gitignore"), ".aegis/overrides.log")
-			fmt.Fprintf(cmd.OutOrStdout(), "✓ wrote %s\n", target)
-			fmt.Fprintln(cmd.OutOrStdout(), "  next: `aegis install` to wire up git hooks")
+			fpf(cmd.OutOrStdout(), "✓ wrote %s\n", target)
+			fpln(cmd.OutOrStdout(), "  next: `aegis install` to wire up git hooks")
 			return nil
 		},
 	}
@@ -62,6 +62,6 @@ func appendLineIfMissing(path, line string) {
 	if err != nil {
 		return
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 	_, _ = f.WriteString("\n" + line + "\n")
 }

@@ -21,14 +21,14 @@ func cmdDoctor() *cobra.Command {
 				return err
 			}
 			out := cmd.OutOrStdout()
-			fmt.Fprintf(out, "platform: %s_%s\n", runtime.GOOS, runtime.GOARCH)
-			fmt.Fprintf(out, "strict_versions: %v\n\n", spec.StrictVers)
+			fpf(out, "platform: %s_%s\n", runtime.GOOS, runtime.GOARCH)
+			fpf(out, "strict_versions: %v\n\n", spec.StrictVers)
 			r := resolve.New(root, spec.Binaries, spec.StrictVers)
 			var failed int
 			for name := range spec.Binaries {
 				rb, err := r.Resolve(name)
 				if err != nil {
-					fmt.Fprintf(out, "  ✖ %-14s %v\n", name, err)
+					fpf(out, "  ✖ %-14s %v\n", name, err)
 					failed++
 					continue
 				}
@@ -36,12 +36,12 @@ func cmdDoctor() *cobra.Command {
 				if !rb.HashVerified {
 					status = "permissive (no hash in spec for this platform)"
 				}
-				fmt.Fprintf(out, "  ✓ %-14s %s  [%s]\n", name, rb.Path, status)
+				fpf(out, "  ✓ %-14s %s  [%s]\n", name, rb.Path, status)
 			}
 			if failed > 0 {
 				return fmt.Errorf("%d binary problem(s)", failed)
 			}
-			fmt.Fprintln(out, "\nall binaries resolved")
+			fpln(out, "\nall binaries resolved")
 			return nil
 		},
 	}

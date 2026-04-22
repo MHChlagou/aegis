@@ -1,8 +1,6 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 
 	"github.com/MHChlagou/aegis/internal/hook"
@@ -20,10 +18,10 @@ func cmdInstall() *cobra.Command {
 			}
 			out := cmd.OutOrStdout()
 			for _, n := range installed {
-				fmt.Fprintf(out, "✓ installed hook: %s\n", n)
+				fpf(out, "✓ installed hook: %s\n", n)
 			}
 			for _, n := range skipped {
-				fmt.Fprintf(out, "! skipped: existing non-aegis hook %s (use --force to overwrite)\n", n)
+				fpf(out, "! skipped: existing non-aegis hook %s (use --force to overwrite)\n", n)
 			}
 			return nil
 		},
@@ -42,7 +40,7 @@ func cmdUninstall() *cobra.Command {
 				return err
 			}
 			for _, n := range removed {
-				fmt.Fprintf(cmd.OutOrStdout(), "✓ removed hook: %s\n", n)
+				fpf(cmd.OutOrStdout(), "✓ removed hook: %s\n", n)
 			}
 			return nil
 		},

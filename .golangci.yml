@@ -5,6 +5,13 @@ version: "2"
 run:
   timeout: 5m
 
+issues:
+  # Show every issue rather than capping per-linter / per-path. Without these,
+  # errcheck (and others) silently stop at ~3 issues per file and ~50 total,
+  # which can hide the true count after a refactor.
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
 linters:
   default: none
   enable:

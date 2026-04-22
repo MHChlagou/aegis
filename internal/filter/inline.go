@@ -23,7 +23,7 @@ func InlineIgnored(path string, line int, marker, rule string) (bool, bool, erro
 	if err != nil {
 		return false, false, err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 	scanner := bufio.NewScanner(f)
 	scanner.Buffer(make([]byte, 0, 64*1024), 1024*1024)
 	current := 0

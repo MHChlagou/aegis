@@ -33,7 +33,7 @@ func cmdRun() *cobra.Command {
 			root := resolveRepoRoot()
 			spec, err := config.Load(root, flags.configPath)
 			if err != nil {
-				fmt.Fprintln(cmd.ErrOrStderr(), "✖ spec error:", err)
+				fpln(cmd.ErrOrStderr(), "✖ spec error:", err)
 				os.Exit(report.ExitConfig)
 			}
 			if flags.output != "" {
@@ -65,7 +65,7 @@ func cmdRun() *cobra.Command {
 			// Resolve required binaries up front so we fail fast on missing/mismatched.
 			res := resolve.New(root, spec.Binaries, spec.StrictVers)
 			if err := preflightBinaries(checks, res, spec); err != nil {
-				fmt.Fprintln(cmd.ErrOrStderr(), "✖", err)
+				fpln(cmd.ErrOrStderr(), "✖", err)
 				os.Exit(report.ExitBinaryResolve)
 			}
 
@@ -110,7 +110,7 @@ func cmdRun() *cobra.Command {
 				report.WritePretty(os.Stdout, summary, color, len(staged))
 			}
 			if runErr != nil {
-				fmt.Fprintln(cmd.ErrOrStderr(), "⚠ scanner error:", runErr)
+				fpln(cmd.ErrOrStderr(), "⚠ scanner error:", runErr)
 				os.Exit(report.ExitScannerCrash)
 			}
 			if summary.Summary.Blocking > 0 {
@@ -178,7 +178,7 @@ func applySkips(checks []string, skips map[string]bool, spec *config.Spec, stder
 	}
 	reason := os.Getenv("AEGIS_REASON")
 	if spec.Override.RequireReason && strings.TrimSpace(reason) == "" {
-		fmt.Fprintln(stderr, "✖ AEGIS_SKIP set but AEGIS_REASON is empty (override.require_reason=true)")
+		fpln(stderr, "✖ AEGIS_SKIP set but AEGIS_REASON is empty (override.require_reason=true)")
 		os.Exit(report.ExitConfig)
 	}
 	out := make([]string, 0, len(checks))
@@ -186,7 +186,7 @@ func applySkips(checks []string, skips map[string]bool, spec *config.Spec, stder
 	for _, c := range checks {
 		if skips["*"] || skips[c] {
 			if c == "secrets" && spec.Override.ProtectSecrets {
-				fmt.Fprintln(stderr, "! refused to skip secrets (override.protect_secrets=true)")
+				fpln(stderr, "! refused to skip secrets (override.protect_secrets=true)")
 				out = append(out, c)
 				continue
 			}
@@ -209,11 +209,11 @@ func writeOverrideLog(path, reason string, checks []string) {
 	if err != nil {
 		return
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 	user := os.Getenv("USER")
 	ts := time.Now().UTC().Format(time.RFC3339)
 	head, _ := exec.Command("git", "rev-parse", "HEAD").Output()
-	fmt.Fprintf(f, "%s\tuser=%s\tcommit=%s\tskipped=%s\treason=%q\n",
+	fpf(f, "%s\tuser=%s\tcommit=%s\tskipped=%s\treason=%q\n",
 		ts, user, strings.TrimSpace(string(head)), strings.Join(checks, ","), reason)
 }
 

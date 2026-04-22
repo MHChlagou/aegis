@@ -3,7 +3,6 @@ package cli
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"os"
 	"time"
 
@@ -49,7 +48,7 @@ func cmdBaseline() *cobra.Command {
 			if err := filter.SaveBaseline(root, all, time.Now().UTC().Format(time.RFC3339)); err != nil {
 				return err
 			}
-			fmt.Fprintf(os.Stdout, "✓ baseline captured: %d findings\n", len(all))
+			fpf(os.Stdout, "✓ baseline captured: %d findings\n", len(all))
 			return nil
 		},
 	}

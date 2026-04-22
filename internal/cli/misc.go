@@ -35,7 +35,7 @@ func cmdIgnore() *cobra.Command {
 			if err := os.WriteFile(p, raw, 0o644); err != nil {
 				return err
 			}
-			fmt.Fprintf(cmd.OutOrStdout(), "✓ added allowlist entry for rule=%s\n", args[0])
+			fpf(cmd.OutOrStdout(), "✓ added allowlist entry for rule=%s\n", args[0])
 			return nil
 		},
 	}
@@ -64,7 +64,7 @@ func cmdExplain() *cobra.Command {
 		Short: "Print documentation pointer for a rule",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			fmt.Fprintf(cmd.OutOrStdout(), "rule %s: consult the scanner's own registry\n", args[0])
+			fpf(cmd.OutOrStdout(), "rule %s: consult the scanner's own registry\n", args[0])
 			return nil
 		},
 	}
