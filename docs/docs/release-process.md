@@ -49,10 +49,9 @@ curl -fsSLO "https://github.com/MHChlagou/aegis/releases/download/v${version}/ae
 curl -fsSLO "https://github.com/MHChlagou/aegis/releases/download/v${version}/aegis-linux-amd64.sha256"
 sha256sum -c aegis-linux-amd64.sha256
 
-# Sigstore verification.
+# Sigstore verification (requires cosign v2.2+).
 cosign verify-blob \
-  --certificate aegis-linux-amd64.sig.crt \
-  --signature  aegis-linux-amd64.sig \
+  --bundle aegis-linux-amd64.sigstore \
   --certificate-identity-regexp 'https://github.com/MHChlagou/aegis/.github/workflows/release.yml@.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
   aegis-linux-amd64

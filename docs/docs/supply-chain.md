@@ -56,9 +56,9 @@ When a new scanner version is released:
 The `aegis` binary itself is built by a SHA-pinned GitHub Actions workflow (`release.yml`), cross-compiled with `CGO_ENABLED=0`, and signed with [Sigstore keyless signing](https://www.sigstore.dev/). To verify a release binary:
 
 ```bash
+# Requires cosign v2.2+ (bundle format is the default from v4).
 cosign verify-blob \
-  --certificate aegis-linux-amd64.sig.crt \
-  --signature  aegis-linux-amd64.sig \
+  --bundle aegis-linux-amd64.sigstore \
   --certificate-identity-regexp 'https://github.com/MHChlagou/aegis/.github/workflows/release.yml@.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
   aegis-linux-amd64

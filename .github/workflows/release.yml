@@ -61,17 +61,17 @@ jobs:
 
       - name: Sign binaries with cosign (keyless)
         shell: bash
-        env:
-          COSIGN_EXPERIMENTAL: "1"
         run: |
           set -euo pipefail
+          # cosign v4 emits a single .sigstore bundle per artifact that carries
+          # both the signature and the signing certificate. The old separate
+          # .sig / .pem outputs are deprecated and ignored when --bundle is set.
           for f in dist/aegis-*; do
             case "${f}" in
-              *.sha256|*.sig|*.pem) continue ;;
+              *.sha256|*.sigstore) continue ;;
             esac
             cosign sign-blob --yes \
-              --output-signature "${f}.sig" \
-              --output-certificate "${f}.pem" \
+              --bundle "${f}.sigstore" \
               "${f}"
           done
 
