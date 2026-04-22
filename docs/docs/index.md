@@ -12,13 +12,13 @@ hide:
 A single-binary, shift-left security orchestrator that runs as a Git hook and in CI. One declarative spec file, zero runtime dependencies, and the best-in-class OSS scanners you already trust.
 
 [Get started in 5 minutes :material-arrow-right:](getting-started.md){ .md-button .md-button--primary }
-[View on GitHub :fontawesome-brands-github:](https://github.com/aegis-sec/aegis){ .md-button }
+[View on GitHub :fontawesome-brands-github:](https://github.com/MHChlagou/aegis){ .md-button }
 
 ---
 
 ## Why Aegis
 
-Most teams want shift-left security — secrets, SAST, SCA, lint, format — on every commit. The existing landscape forces a choice.
+Most teams want shift-left security - secrets, SAST, SCA, lint, format - on every commit. The existing landscape forces a choice.
 
 === "Glue it yourself"
 
@@ -88,5 +88,5 @@ Most teams want shift-left security — secrets, SAST, SCA, lint, format — on 
 
 - Follow the [5-minute quickstart](getting-started.md).
 - Browse the [configuration reference](configuration.md).
-- Learn about the [supply-chain model](supply-chain.md) — the bit that makes Aegis different.
+- Learn about the [supply-chain model](supply-chain.md) - the bit that makes Aegis different.
 - Read the [full specification](reference/spec.md).

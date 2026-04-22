@@ -49,5 +49,5 @@ Files without a shebang and without a shell extension are skipped, even if they 
 
 ## Notable rule suppressions
 
-- Disable `SC2086` (word splitting) only if you have verified the script is safe — this is the most common source of shell bugs.
+- Disable `SC2086` (word splitting) only if you have verified the script is safe - this is the most common source of shell bugs.
 - Use `# shellcheck disable=SCxxxx` with a comment explaining why, not globally.

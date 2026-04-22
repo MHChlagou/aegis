@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/aegis-sec/aegis/internal/version"
+	"github.com/MHChlagou/aegis/internal/version"
 )
 
 func cmdVersion() *cobra.Command {

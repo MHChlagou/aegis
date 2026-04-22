@@ -66,7 +66,7 @@ git commit -m "chore(aegis): drop fixed findings from baseline"
 }
 ```
 
-`fingerprint` is the match key — see [first scan](../first-scan.md#anatomy-of-a-pretty-report).
+`fingerprint` is the match key - see [first scan](../first-scan.md#anatomy-of-a-pretty-report).
 
 ## Exit codes
 

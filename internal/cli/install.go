@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/aegis-sec/aegis/internal/hook"
+	"github.com/MHChlagou/aegis/internal/hook"
 )
 
 func cmdInstall() *cobra.Command {

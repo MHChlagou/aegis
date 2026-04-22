@@ -1,6 +1,6 @@
 # Environment variables
 
-Aegis recognizes a small number of environment variables. They override the corresponding config file values at runtime and are documented here in full — no hidden knobs.
+Aegis recognizes a small number of environment variables. They override the corresponding config file values at runtime and are documented here in full - no hidden knobs.
 
 ## Runtime behavior
 
@@ -35,10 +35,10 @@ See [override and audit log](../operations-override.md).
 
 These are set by the release workflow via `-ldflags` and surface in `aegis version`. They are not consumed at runtime as environment variables; they are baked in.
 
-- `github.com/aegis-sec/aegis/internal/version.Version`
-- `github.com/aegis-sec/aegis/internal/version.Commit`
-- `github.com/aegis-sec/aegis/internal/version.Date`
+- `github.com/MHChlagou/aegis/internal/version.Version`
+- `github.com/MHChlagou/aegis/internal/version.Commit`
+- `github.com/MHChlagou/aegis/internal/version.Date`
 
 ## Nothing else
 
-Aegis does not read any other environment variables. If you find a behavior that appears to be env-driven and is not documented here, file a bug — that would be an undocumented hidden knob and a spec violation.
+Aegis does not read any other environment variables. If you find a behavior that appears to be env-driven and is not documented here, file a bug - that would be an undocumented hidden knob and a spec violation.

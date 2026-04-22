@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aegis-sec/aegis/internal/finding"
+	"github.com/MHChlagou/aegis/internal/finding"
 )
 
 type Baseline struct {
@@ -63,7 +63,7 @@ func SaveBaseline(repoRoot string, findings []finding.Finding, now string) error
 }
 
 // Contains reports whether this finding was already in the baseline. Line
-// numbers are deliberately not part of the key — files get reformatted.
+// numbers are deliberately not part of the key - files get reformatted.
 func (b *Baseline) Contains(f finding.Finding) bool {
 	if b == nil || len(b.Keys) == 0 {
 		return false

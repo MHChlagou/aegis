@@ -73,9 +73,9 @@ The full checklist is in the [contributor guide](contributing.md#adding-a-new-sc
 | Gate                  | Threshold boundary cases                                           |
 | Runner                | Synthetic checkers; verifies timeouts, parallelism, ordering       |
 | Hook                  | Install / uninstall with pre-existing foreign hooks                |
-| End-to-end            | `make smoke` — real `aegis` binary against a fixture repo          |
+| End-to-end            | `make smoke` - real `aegis` binary against a fixture repo          |
 
-The matrix is explicit — each package has at least one `_test.go` file with table-driven cases. There is no hidden test infrastructure.
+The matrix is explicit - each package has at least one `_test.go` file with table-driven cases. There is no hidden test infrastructure.
 
 ## Design rules
 

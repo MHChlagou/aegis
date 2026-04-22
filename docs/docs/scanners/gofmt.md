@@ -6,7 +6,7 @@
 
 ## What it does
 
-`gofmt` is the canonical Go formatter. It is the arbiter of Go code style — there is no configuration. Aegis uses it as the `format` check on Go files.
+`gofmt` is the canonical Go formatter. It is the arbiter of Go code style - there is no configuration. Aegis uses it as the `format` check on Go files.
 
 ## How Aegis invokes it
 
@@ -46,4 +46,4 @@ In v1.0, `aegis fmt` reports only; you fix with the upstream tool or your editor
 
 ## Relationship to `goimports`
 
-`gofmt` does not manage imports. Many Go teams prefer `goimports` (which is a superset that also reformats import blocks). Aegis does not ship a `goimports` adapter in v1.0 because the two are near-identical in output — if you need `goimports`, set `scanners.gofmt.path: goimports` and the adapter will pass through unchanged.
+`gofmt` does not manage imports. Many Go teams prefer `goimports` (which is a superset that also reformats import blocks). Aegis does not ship a `goimports` adapter in v1.0 because the two are near-identical in output - if you need `goimports`, set `scanners.gofmt.path: goimports` and the adapter will pass through unchanged.

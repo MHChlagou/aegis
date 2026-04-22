@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/aegis-sec/aegis/internal/cli"
+	"github.com/MHChlagou/aegis/internal/cli"
 )
 
 func main() {

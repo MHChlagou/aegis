@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aegis-sec/aegis/internal/checker"
-	"github.com/aegis-sec/aegis/internal/config"
+	"github.com/MHChlagou/aegis/internal/checker"
+	"github.com/MHChlagou/aegis/internal/config"
 )
 
 type Result struct {

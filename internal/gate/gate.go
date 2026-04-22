@@ -7,9 +7,9 @@ import (
 
 	"github.com/bmatcuk/doublestar/v4"
 
-	"github.com/aegis-sec/aegis/internal/config"
-	"github.com/aegis-sec/aegis/internal/filter"
-	"github.com/aegis-sec/aegis/internal/finding"
+	"github.com/MHChlagou/aegis/internal/config"
+	"github.com/MHChlagou/aegis/internal/filter"
+	"github.com/MHChlagou/aegis/internal/finding"
 )
 
 // Apply runs all filter layers in one pass and returns the mutated findings.
@@ -22,7 +22,7 @@ func Apply(spec *config.Spec, al *filter.Allowlist, base *filter.Baseline, repoR
 		if al != nil && allowMatch(al, f) {
 			continue
 		}
-		// 2. Baseline (if in baseline, drop — not a new finding).
+		// 2. Baseline (if in baseline, drop - not a new finding).
 		if base != nil && base.Contains(f) {
 			continue
 		}
@@ -36,7 +36,7 @@ func Apply(spec *config.Spec, al *filter.Allowlist, base *filter.Baseline, repoR
 				}
 			}
 		}
-		// 4. Inline ignore: rely on File+Line. Best-effort — errors are ignored.
+		// 4. Inline ignore: rely on File+Line. Best-effort - errors are ignored.
 		if f.File != "" && f.Line > 0 && !demoted {
 			marker := spec.Checks.Secrets.InlineIgnore
 			if marker == "" {

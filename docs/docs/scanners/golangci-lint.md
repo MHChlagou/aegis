@@ -66,4 +66,4 @@ issues:
 
 ## Performance
 
-`golangci-lint` maintains its own cache (`$GOLANGCI_LINT_CACHE`). Preserve that cache across CI runs for a significant speedup — see the upstream CI examples.
+`golangci-lint` maintains its own cache (`$GOLANGCI_LINT_CACHE`). Preserve that cache across CI runs for a significant speedup - see the upstream CI examples.

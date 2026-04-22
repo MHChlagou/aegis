@@ -33,7 +33,7 @@ aegis doctor
 # no hooks installed
 ```
 
-Run `aegis install` from inside the repo. If you are inside a worktree or submodule, run `aegis install` at the parent repo — hooks in submodules are uncommon and not auto-managed.
+Run `aegis install` from inside the repo. If you are inside a worktree or submodule, run `aegis install` at the parent repo - hooks in submodules are uncommon and not auto-managed.
 
 Also check `.git/hooks/pre-commit` exists and is executable. If a sibling tool (Husky, lefthook) overwrote it, run `aegis install --force` to reinstall with a shim that dispatches to all hook managers.
 
@@ -63,7 +63,7 @@ Run `aegis run --verbose --dry-run` in both environments and diff the logged con
 
 ## JSON output contains unexpected fields
 
-`aegis run --output json` emits a stable schema — but scanner-specific extra fields surface under a `raw` sub-object. If you're consuming the output, key off the top-level fields only; `raw` is not versioned.
+`aegis run --output json` emits a stable schema - but scanner-specific extra fields surface under a `raw` sub-object. If you're consuming the output, key off the top-level fields only; `raw` is not versioned.
 
 ## Running inside a container
 
@@ -74,6 +74,6 @@ A common footgun: the container has `gitleaks` but not at the pinned version. Tw
 
 ## Getting help
 
-- [GitHub Discussions](https://github.com/aegis-sec/aegis/discussions) for questions and setup.
-- [GitHub Issues](https://github.com/aegis-sec/aegis/issues) for bugs.
-- Private Security Advisory for anything with security implications — see [SECURITY.md](https://github.com/aegis-sec/aegis/blob/main/SECURITY.md).
+- [GitHub Discussions](https://github.com/MHChlagou/aegis/discussions) for questions and setup.
+- [GitHub Issues](https://github.com/MHChlagou/aegis/issues) for bugs.
+- Private Security Advisory for anything with security implications - see [SECURITY.md](https://github.com/MHChlagou/aegis/blob/main/SECURITY.md).

@@ -158,7 +158,7 @@ func validateMode(field string, got Mode, allowed ...Mode) error {
 }
 
 // validateBinaryPaths rejects relative paths that would point at a vendored
-// binary inside the repo — a defense against a malicious PR slipping one in.
+// binary inside the repo - a defense against a malicious PR slipping one in.
 func validateBinaryPaths(s *Spec) error {
 	for name, b := range s.Binaries {
 		if b.Path == "" {

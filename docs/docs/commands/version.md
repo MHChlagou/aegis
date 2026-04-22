@@ -17,7 +17,7 @@ aegis version [flags]
 ## Output
 
 ```text
-aegis 0.1.0  schema=1  commit=abc1234  built=2026-04-22T10:15:00Z  go1.22.3
+aegis 0.1.0  schema=1  commit=abc1234  built=2026-04-22T10:15:00Z  go1.25.3
 ```
 
 - `schema=1` is the config schema version the binary expects in `aegis.yaml`.
@@ -36,7 +36,7 @@ aegis version --format json
   "schema": 1,
   "commit": "abc1234",
   "built": "2026-04-22T10:15:00Z",
-  "go": "go1.22.3"
+  "go": "go1.25.3"
 }
 ```
 

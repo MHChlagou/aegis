@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/aegis-sec/aegis/internal/config"
-	"github.com/aegis-sec/aegis/internal/resolve"
+	"github.com/MHChlagou/aegis/internal/config"
+	"github.com/MHChlagou/aegis/internal/resolve"
 )
 
 func cmdDoctor() *cobra.Command {

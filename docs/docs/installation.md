@@ -1,6 +1,6 @@
 # Installation
 
-Aegis ships as a single static binary. There is no runtime to install, no Node / Python / Ruby dependency, and no daemon — just the `aegis` executable and the scanner binaries you want it to coordinate.
+Aegis ships as a single static binary. There is no runtime to install, no Node / Python / Ruby dependency, and no daemon - just the `aegis` executable and the scanner binaries you want it to coordinate.
 
 ## Supported platforms
 
@@ -12,9 +12,9 @@ Aegis ships as a single static binary. There is no runtime to install, no Node /
 
 ## Install from a release
 
-1. Download the binary for your platform from the [releases page](https://github.com/aegis-sec/aegis/releases/latest).
+1. Download the binary for your platform from the [releases page](https://github.com/MHChlagou/aegis/releases/latest).
 2. Verify the SHA256 checksum (a `.sha256` file sits next to every binary).
-3. Optionally verify the Sigstore signature — see [supply-chain](supply-chain.md).
+3. Optionally verify the Sigstore signature - see [supply-chain](supply-chain.md).
 4. Move the binary onto your `$PATH` (commonly `/usr/local/bin` on Unix).
 5. Run `aegis version` to confirm.
 
@@ -30,14 +30,14 @@ aegis version
 Useful for development or for systems where you prefer to track `main`.
 
 ```bash
-go install github.com/aegis-sec/aegis/cmd/aegis@latest
+go install github.com/MHChlagou/aegis/cmd/aegis@latest
 ```
 
 The binary lands in `$(go env GOBIN)` or `$(go env GOPATH)/bin`.
 
 ## Install the scanners
 
-Aegis coordinates scanners — it does not bundle them. Install only the ones you actually use; `aegis doctor` will tell you which are missing once you configure them.
+Aegis coordinates scanners - it does not bundle them. Install only the ones you actually use; `aegis doctor` will tell you which are missing once you configure them.
 
 | Scanner          | Purpose              | Install                                                                                  |
 | ---------------- | -------------------- | ---------------------------------------------------------------------------------------- |

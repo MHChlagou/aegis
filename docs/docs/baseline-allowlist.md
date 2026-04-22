@@ -13,7 +13,7 @@ Pick the least-broad tool for the job.
 
 ## Allowlist
 
-An allowlist entry permanently suppresses a (scanner, rule, optional file pattern) tuple. Every entry requires a `reason` string — reviewers can verify the judgment.
+An allowlist entry permanently suppresses a (scanner, rule, optional file pattern) tuple. Every entry requires a `reason` string - reviewers can verify the judgment.
 
 ```yaml
 # .aegis/allowlist.yaml
@@ -47,7 +47,7 @@ aegis baseline            # snapshot current findings into .aegis/baseline.json
 aegis baseline --check    # fail if the baseline is stale compared to current findings
 ```
 
-The file is JSON — check it in alongside your code. A finding is considered "the same" across runs via its stable fingerprint (see [first scan](first-scan.md#anatomy-of-a-pretty-report)), so cosmetic code moves (renaming a function, shifting lines) still match as long as the (scanner, rule, file, normalized-message) tuple is preserved.
+The file is JSON - check it in alongside your code. A finding is considered "the same" across runs via its stable fingerprint (see [first scan](first-scan.md#anatomy-of-a-pretty-report)), so cosmetic code moves (renaming a function, shifting lines) still match as long as the (scanner, rule, file, normalized-message) tuple is preserved.
 
 When you fix a finding, re-run `aegis baseline` to shrink the snapshot. CI should run `aegis baseline --check` on pull requests so a PR that fixes a finding doesn't accidentally let the same finding slip back in via the baseline.
 
@@ -57,7 +57,7 @@ When you fix a finding, re-run `aegis baseline` to shrink the snapshot. CI shoul
 - **Use the allowlist** for long-lived, per-rule exceptions you have actively judged acceptable. The allowlist is meant to be stable.
 
 !!! tip "Reviewability"
-    Both files are intentionally diffable in PRs. Reviewers should push back on growing baselines and vague allowlist reasons — they are the mechanism for preventing silent regressions.
+    Both files are intentionally diffable in PRs. Reviewers should push back on growing baselines and vague allowlist reasons - they are the mechanism for preventing silent regressions.
 
 ## Inline ignores
 

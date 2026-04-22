@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aegis-sec/aegis/internal/detect"
-	"github.com/aegis-sec/aegis/internal/finding"
+	"github.com/MHChlagou/aegis/internal/detect"
+	"github.com/MHChlagou/aegis/internal/finding"
 )
 
 type Malicious struct{}

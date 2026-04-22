@@ -1,6 +1,6 @@
 <!--
 Thanks for contributing to Aegis! Please fill out the sections below.
-Your PR title must follow Conventional Commits — it is enforced by CI.
+Your PR title must follow Conventional Commits - it is enforced by CI.
 Example: feat(runner): parallelize scanners per stack
 -->
 

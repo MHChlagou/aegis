@@ -19,7 +19,7 @@
 :   The final-stage evaluator that compares filtered findings against `gate.fail_on` thresholds and sets the process exit code.
 
 **Hook**
-:   A Git hook — `pre-commit` or `pre-push` — that `aegis install` manages.
+:   A Git hook - `pre-commit` or `pre-push` - that `aegis install` manages.
 
 **Inline ignore**
 :   A magic comment (`aegis:ignore rule=X reason=Y`) in source code that suppresses a finding on the marked line or block. Requires a reason.

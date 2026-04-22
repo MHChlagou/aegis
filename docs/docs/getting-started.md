@@ -14,7 +14,7 @@ This 5-minute walkthrough installs Aegis, wires it into a new Git repository, ru
 
     ```bash
     # Once releases are published:
-    curl -fsSL https://github.com/aegis-sec/aegis/releases/latest/download/aegis-$(uname -s | tr A-Z a-z)-$(uname -m) -o /usr/local/bin/aegis
+    curl -fsSL https://github.com/MHChlagou/aegis/releases/latest/download/aegis-$(uname -s | tr A-Z a-z)-$(uname -m) -o /usr/local/bin/aegis
     chmod +x /usr/local/bin/aegis
     aegis version
     ```
@@ -22,7 +22,7 @@ This 5-minute walkthrough installs Aegis, wires it into a new Git repository, ru
 === "Go toolchain"
 
     ```bash
-    go install github.com/aegis-sec/aegis/cmd/aegis@latest
+    go install github.com/MHChlagou/aegis/cmd/aegis@latest
     aegis version
     ```
 
@@ -30,7 +30,7 @@ This 5-minute walkthrough installs Aegis, wires it into a new Git repository, ru
 
     ```powershell
     Invoke-WebRequest `
-      -Uri https://github.com/aegis-sec/aegis/releases/latest/download/aegis-windows-amd64.exe `
+      -Uri https://github.com/MHChlagou/aegis/releases/latest/download/aegis-windows-amd64.exe `
       -OutFile $env:USERPROFILE\bin\aegis.exe
     aegis version
     ```
@@ -50,7 +50,7 @@ git add app.js
 aegis init
 ```
 
-This creates `.aegis/aegis.yaml` with secure defaults. Open it — every section has a comment explaining what it controls. See [the configuration guide](configuration.md) for the full schema.
+This creates `.aegis/aegis.yaml` with secure defaults. Open it - every section has a comment explaining what it controls. See [the configuration guide](configuration.md) for the full schema.
 
 ## 4. Install the Git hooks
 

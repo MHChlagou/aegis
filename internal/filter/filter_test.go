@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/aegis-sec/aegis/internal/finding"
+	"github.com/MHChlagou/aegis/internal/finding"
 )
 
 func TestAllowEntryMatches(t *testing.T) {

@@ -14,11 +14,11 @@ flowchart LR
   S8 --> S9[9. Gate + report]
 ```
 
-Each stage is an explicit module under [`internal/`](https://github.com/aegis-sec/aegis/tree/main/internal) — you can read the code directly. The stages:
+Each stage is an explicit module under [`internal/`](https://github.com/MHChlagou/aegis/tree/main/internal) - you can read the code directly. The stages:
 
 ## 1. Load config
 
-Reads `.aegis/aegis.yaml`, merging with built-in defaults from [`internal/config/defaults_spec.go`](https://github.com/aegis-sec/aegis/blob/main/internal/config/defaults_spec.go). Env var overrides are applied last.
+Reads `.aegis/aegis.yaml`, merging with built-in defaults from [`internal/config/defaults_spec.go`](https://github.com/MHChlagou/aegis/blob/main/internal/config/defaults_spec.go). Env var overrides are applied last.
 
 Failure mode: **exit 2** (config error).
 
@@ -36,7 +36,7 @@ Determines which files are in scope.
 | ----------------------------- | --------------------------------------------- |
 | `aegis run --hook pre-commit` | `git diff --cached --name-only`               |
 | `aegis run --hook pre-push`   | Commits about to be pushed, via `git rev-list` |
-| `aegis run` (no hook)         | Working tree modifications — everything unignored |
+| `aegis run` (no hook)         | Working tree modifications - everything unignored |
 
 Files in `paths.exclude` globs are dropped here.
 
@@ -55,7 +55,7 @@ For every enabled check, Aegis picks the right scanner based on stack, then:
 
 Failure mode: **exit 3** (binary missing, version mismatch, or hash mismatch). With `strict_versions: true` (default), any of these fail the whole run. With `strict_versions: false`, only the offending scanner is skipped with a warning.
 
-This is the stage that makes Aegis' supply-chain model meaningful — see [supply-chain](supply-chain.md).
+This is the stage that makes Aegis' supply-chain model meaningful - see [supply-chain](supply-chain.md).
 
 ## 6. Run scanners in parallel
 
@@ -85,7 +85,7 @@ type Finding struct {
 }
 ```
 
-The fingerprint is the bridge to baselines — it must be stable against cosmetic code movement.
+The fingerprint is the bridge to baselines - it must be stable against cosmetic code movement.
 
 ## 8. Filter
 
@@ -95,7 +95,7 @@ Each filter keeps a record of what it dropped or downgraded; `--verbose` logs th
 
 ## 9. Gate and report
 
-The gate computes `error/warn/info` counts against `gate.fail_on` thresholds and emits the final exit code. Simultaneously the report is rendered — pretty by default, JSON when requested.
+The gate computes `error/warn/info` counts against `gate.fail_on` thresholds and emits the final exit code. Simultaneously the report is rendered - pretty by default, JSON when requested.
 
 Exit codes:
 
@@ -113,6 +113,6 @@ The pipeline produces **byte-identical** output for the same inputs on the same 
 
 - Findings are sorted by `(severity desc, scanner, file, line, column, rule, fingerprint)`.
 - Timings are not written to JSON (only pretty output).
-- Parallel scanning does not affect output order — collection happens before sort.
+- Parallel scanning does not affect output order - collection happens before sort.
 
 This matters for CI diff-based tools, for caching, and for reproducible builds.

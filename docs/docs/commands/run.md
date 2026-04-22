@@ -25,13 +25,13 @@ Global flags (`--config`, `--repo`, `--verbose`, …) also apply. See the [CLI i
 
 - `--hook pre-commit`: scope is `git diff --cached --name-only` (staged files).
 - `--hook pre-push`: scope is the commits being pushed, via `git rev-list <remote>..<local>`.
-- No `--hook` flag: scope is the modified working tree — equivalent to `git status --porcelain` filtered for tracked files.
+- No `--hook` flag: scope is the modified working tree - equivalent to `git status --porcelain` filtered for tracked files.
 
 ## Restricting checks
 
 ```bash
 aegis run --check lint,format          # run only lint and format
-aegis run --check secrets              # secrets only — useful for targeted debugging
+aegis run --check secrets              # secrets only - useful for targeted debugging
 ```
 
 ## `fmt` shortcut

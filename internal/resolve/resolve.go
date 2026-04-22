@@ -13,7 +13,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/aegis-sec/aegis/internal/config"
+	"github.com/MHChlagou/aegis/internal/config"
 )
 
 // ResolvedBinary is the output of resolution: where the binary lives, what

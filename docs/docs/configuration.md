@@ -28,7 +28,7 @@ gate:
     warn: 10
 ```
 
-That is enough to run. Every other field has a sensible default — see [`defaults_spec.go`](https://github.com/aegis-sec/aegis/blob/main/internal/config/defaults_spec.go) for the full baked-in defaults.
+That is enough to run. Every other field has a sensible default - see [`defaults_spec.go`](https://github.com/MHChlagou/aegis/blob/main/internal/config/defaults_spec.go) for the full baked-in defaults.
 
 ## Top-level sections
 
@@ -97,7 +97,7 @@ scanners:
 ```
 
 !!! warning "Hash discipline"
-    A scanner with a missing or mismatched `sha256` pin will be refused at runtime when `strict_versions: true`. This is the default and the whole point of the [supply-chain model](supply-chain.md). Do not turn it off to silence a hash error — update the pin via `aegis doctor --update-pins` (v1.1) or by hand from the upstream release checksum.
+    A scanner with a missing or mismatched `sha256` pin will be refused at runtime when `strict_versions: true`. This is the default and the whole point of the [supply-chain model](supply-chain.md). Do not turn it off to silence a hash error - update the pin via `aegis doctor --update-pins` (v1.1) or by hand from the upstream release checksum.
 
 ## Gates
 
@@ -128,7 +128,7 @@ Patterns use [doublestar](https://github.com/bmatcuk/doublestar) glob syntax, re
 
 ## Environment variable overrides
 
-Any config value can be overridden by an environment variable at runtime — useful for CI parameter tuning without editing YAML. See [environment variables](reference/env-vars.md) for the full list.
+Any config value can be overridden by an environment variable at runtime - useful for CI parameter tuning without editing YAML. See [environment variables](reference/env-vars.md) for the full list.
 
 ## Validating a config
 

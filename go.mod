@@ -1,6 +1,6 @@
-module github.com/aegis-sec/aegis
+module github.com/MHChlagou/aegis
 
-go 1.22
+go 1.25
 
 require (
 	github.com/bmatcuk/doublestar/v4 v4.10.0

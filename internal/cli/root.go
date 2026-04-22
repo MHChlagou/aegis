@@ -19,7 +19,7 @@ var flags = &globalFlags{}
 func NewRoot() *cobra.Command {
 	root := &cobra.Command{
 		Use:   "aegis",
-		Short: "Aegis — the shield your commits pass through",
+		Short: "Aegis - the shield your commits pass through",
 		Long: `Aegis is a shift-left security orchestrator that runs as a Git hook.
 It coordinates best-in-class open-source scanners (gitleaks, opengrep,
 osv-scanner, biome, ruff, golangci-lint, …) driven by one declarative spec.`,

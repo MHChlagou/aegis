@@ -1,6 +1,6 @@
 # Concurrency and performance
 
-Aegis is designed to fit inside a developer's pre-commit wait budget — ideally under 2 seconds for a small staged change, under 10 for a large one. This page describes the knobs.
+Aegis is designed to fit inside a developer's pre-commit wait budget - ideally under 2 seconds for a small staged change, under 10 for a large one. This page describes the knobs.
 
 ## Target budgets
 
@@ -35,7 +35,7 @@ timeouts:
   total: 120s             # kill everything if the whole run exceeds this
 ```
 
-A timed-out scanner yields **exit 4** for that check but does not fail the other checks. The gate still runs on the findings that did complete — so a timeout does not silently pass the gate.
+A timed-out scanner yields **exit 4** for that check but does not fail the other checks. The gate still runs on the findings that did complete - so a timeout does not silently pass the gate.
 
 ## Staged-file scoping
 
@@ -59,11 +59,11 @@ Total: ~1.3 s wall, since `golangci-lint` and `osv-scanner` overlap.
 ## Tuning tips
 
 - **Move `dependencies` to `pre-push`.** Lockfiles change less often than code. A `hooks.pre_commit.checks` list that omits `dependencies`, combined with `hooks.pre_push.checks: [dependencies]`, keeps pre-commit snappy.
-- **Exclude `vendor/`, `node_modules/`, generated code.** `paths.exclude` is cheap — it happens before any scanner runs.
+- **Exclude `vendor/`, `node_modules/`, generated code.** `paths.exclude` is cheap - it happens before any scanner runs.
 - **Set `max_parallel: 2` on CI runners with shared CPU.** More parallelism is not always faster under contention.
 - **Inspect `--verbose` output** before hypothesizing. Most "slow" reports turn out to be one specific scanner on one specific file.
 
 ## What Aegis does not do
 
-- It does not cache scanner results between runs. A scanner re-reads the file on each invocation. Caching is a v2.0 roadmap item — until then, correctness wins over cleverness.
+- It does not cache scanner results between runs. A scanner re-reads the file on each invocation. Caching is a v2.0 roadmap item - until then, correctness wins over cleverness.
 - It does not do incremental analysis. A file is either in scope or not; there is no "diff of findings" calculation at the scanner level.

@@ -8,7 +8,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/aegis-sec/aegis/internal/config"
+	"github.com/MHChlagou/aegis/internal/config"
 )
 
 func cmdInit() *cobra.Command {

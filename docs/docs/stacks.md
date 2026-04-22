@@ -33,7 +33,7 @@ stacks:
   include: [go, npm]
 ```
 
-When `auto: false` and a staged file does not belong to any listed stack, it is skipped silently. Aegis does not warn on unclassified files — this is intentional so that mixed repos don't spam output.
+When `auto: false` and a staged file does not belong to any listed stack, it is skipped silently. Aegis does not warn on unclassified files - this is intentional so that mixed repos don't spam output.
 
 ## Stacks and scanners
 
@@ -49,4 +49,4 @@ aegis run --verbose
 # stage=detect  staged=24  stacks=[go shell]  skipped=3
 ```
 
-With `--verbose`, the detect stage logs the full per-file classification — useful when a file you expect to be scanned is being skipped.
+With `--verbose`, the detect stage logs the full per-file classification - useful when a file you expect to be scanned is being skipped.

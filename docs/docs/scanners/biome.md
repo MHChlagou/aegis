@@ -43,7 +43,7 @@ scanners:
       linux/amd64: "…"
 ```
 
-Biome reads its own `biome.json` config for rule enablement — Aegis does not intermediate the rules.
+Biome reads its own `biome.json` config for rule enablement - Aegis does not intermediate the rules.
 
 ## Monorepo notes
 

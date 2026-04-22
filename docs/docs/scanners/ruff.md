@@ -42,7 +42,7 @@ scanners:
       linux/amd64: "…"
 ```
 
-Rule selection lives in `pyproject.toml` under `[tool.ruff]` — Aegis does not intermediate.
+Rule selection lives in `pyproject.toml` under `[tool.ruff]` - Aegis does not intermediate.
 
 ## Common setup
 
@@ -56,4 +56,4 @@ line-length = 100
 select = ["E", "F", "I", "B", "UP", "S"]     # S = bandit-style security rules
 ```
 
-The `S` rules overlap with dedicated security scanners but are cheap — keep them on unless they duplicate findings from another check.
+The `S` rules overlap with dedicated security scanners but are cheap - keep them on unless they duplicate findings from another check.

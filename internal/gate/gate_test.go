@@ -3,9 +3,9 @@ package gate
 import (
 	"testing"
 
-	"github.com/aegis-sec/aegis/internal/config"
-	"github.com/aegis-sec/aegis/internal/filter"
-	"github.com/aegis-sec/aegis/internal/finding"
+	"github.com/MHChlagou/aegis/internal/config"
+	"github.com/MHChlagou/aegis/internal/filter"
+	"github.com/MHChlagou/aegis/internal/finding"
 )
 
 func baseSpec() *config.Spec {

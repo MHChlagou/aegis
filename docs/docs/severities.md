@@ -8,7 +8,7 @@ Aegis normalizes every finding to one of three severities:
 | `warn`   | Should be fixed. Default gate allows a small backlog.            |
 | `info`   | Informational. Never fails the gate by default.                  |
 
-Scanners often emit richer severity scales (`critical`, `high`, `medium`, `low`, `style`, `performance`). Each adapter maps these down to the three Aegis severities — see the individual [scanner pages](scanners/index.md) for the exact mapping.
+Scanners often emit richer severity scales (`critical`, `high`, `medium`, `low`, `style`, `performance`). Each adapter maps these down to the three Aegis severities - see the individual [scanner pages](scanners/index.md) for the exact mapping.
 
 ## Overriding severity
 
@@ -73,7 +73,7 @@ var testPassword = "hunter2"
 PASSWORD = "x"
 ```
 
-An inline ignore **must** include a `reason`; Aegis refuses the directive without it. This is part of the [override model](operations-override.md) — every suppression leaves an audit trail.
+An inline ignore **must** include a `reason`; Aegis refuses the directive without it. This is part of the [override model](operations-override.md) - every suppression leaves an audit trail.
 
 ## Quick reference
 

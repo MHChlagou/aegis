@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aegis-sec/aegis/internal/detect"
-	"github.com/aegis-sec/aegis/internal/finding"
+	"github.com/MHChlagou/aegis/internal/detect"
+	"github.com/MHChlagou/aegis/internal/finding"
 )
 
 type Deps struct{}
@@ -108,7 +108,7 @@ func (d Deps) Run(ctx context.Context, in CheckInput) (CheckOutput, error) {
 					RuleID:     v.ID,
 					Severity:   finding.ParseSeverity(v.DatabaseSpecific.Severity),
 					File:       res.Source.Path,
-					Message:    fmt.Sprintf("%s@%s — %s", p.Package.Name, p.Package.Version, v.Summary),
+					Message:    fmt.Sprintf("%s@%s - %s", p.Package.Name, p.Package.Version, v.Summary),
 					FixSuggest: fixHint(p.Package.Name, p.Package.Version, fix),
 					Engine:     rb.Name,
 				})

@@ -26,8 +26,8 @@ jobs:
       - name: Install aegis
         run: |
           version="0.1.0"
-          curl -fsSL "https://github.com/aegis-sec/aegis/releases/download/v${version}/aegis-linux-amd64" -o /usr/local/bin/aegis
-          curl -fsSL "https://github.com/aegis-sec/aegis/releases/download/v${version}/aegis-linux-amd64.sha256" -o /tmp/aegis.sha256
+          curl -fsSL "https://github.com/MHChlagou/aegis/releases/download/v${version}/aegis-linux-amd64" -o /usr/local/bin/aegis
+          curl -fsSL "https://github.com/MHChlagou/aegis/releases/download/v${version}/aegis-linux-amd64.sha256" -o /tmp/aegis.sha256
           ( cd /usr/local/bin && sha256sum -c /tmp/aegis.sha256 )
           chmod +x /usr/local/bin/aegis
 
@@ -51,7 +51,7 @@ jobs:
           path: aegis-report.json
 ```
 
-Pin your release version and verify its checksum — do not `curl | sh` without verification. Once SARIF output lands (v1.1), you can upload findings to GitHub Code Scanning directly.
+Pin your release version and verify its checksum - do not `curl | sh` without verification. Once SARIF output lands (v1.1), you can upload findings to GitHub Code Scanning directly.
 
 ## GitLab CI
 
@@ -61,7 +61,7 @@ aegis:
   stage: test
   before_script:
     - apk add --no-cache curl git
-    - curl -fsSL https://github.com/aegis-sec/aegis/releases/download/v0.1.0/aegis-linux-amd64 -o /usr/local/bin/aegis
+    - curl -fsSL https://github.com/MHChlagou/aegis/releases/download/v0.1.0/aegis-linux-amd64 -o /usr/local/bin/aegis
     - chmod +x /usr/local/bin/aegis
   script:
     - aegis doctor
@@ -85,7 +85,7 @@ jobs:
       - run:
           name: Install aegis
           command: |
-            curl -fsSL https://github.com/aegis-sec/aegis/releases/download/v0.1.0/aegis-linux-amd64 -o ~/bin/aegis
+            curl -fsSL https://github.com/MHChlagou/aegis/releases/download/v0.1.0/aegis-linux-amd64 -o ~/bin/aegis
             chmod +x ~/bin/aegis
       - run: aegis doctor
       - run: aegis run --output json | tee aegis-report.json
@@ -121,4 +121,4 @@ aegis baseline --check    # exits 1 if baseline would grow
 
 ## Caching
 
-There is no built-in cache for scanner binaries in v1.0. Cache them yourself at the CI layer if you want to avoid re-downloading on every run — the Go/Node language-specific caches work as usual.
+There is no built-in cache for scanner binaries in v1.0. Cache them yourself at the CI layer if you want to avoid re-downloading on every run - the Go/Node language-specific caches work as usual.

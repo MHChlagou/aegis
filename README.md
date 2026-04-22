@@ -2,24 +2,24 @@
 
 *The shield your commits pass through.*
 
-[![CI](https://github.com/aegis-sec/aegis/actions/workflows/ci.yml/badge.svg)](https://github.com/aegis-sec/aegis/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/aegis-sec/aegis/actions/workflows/codeql.yml/badge.svg)](https://github.com/aegis-sec/aegis/actions/workflows/codeql.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/aegis-sec/aegis)](https://goreportcard.com/report/github.com/aegis-sec/aegis)
-[![Go Reference](https://pkg.go.dev/badge/github.com/aegis-sec/aegis.svg)](https://pkg.go.dev/github.com/aegis-sec/aegis)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/aegis-sec/aegis?sort=semver&display_name=tag)](https://github.com/aegis-sec/aegis/releases/latest)
-[![Go version](https://img.shields.io/github/go-mod/go-version/aegis-sec/aegis)](go.mod)
-[![Docs](https://img.shields.io/badge/docs-aegis--sec.github.io-blue)](https://aegis-sec.github.io/aegis/)
+[![CI](https://github.com/MHChlagou/aegis/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/MHChlagou/aegis/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/MHChlagou/aegis/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/MHChlagou/aegis/actions/workflows/codeql.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/MHChlagou/aegis)](https://goreportcard.com/report/github.com/MHChlagou/aegis)
+[![Go Reference](https://pkg.go.dev/badge/github.com/MHChlagou/aegis.svg)](https://pkg.go.dev/github.com/MHChlagou/aegis)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/MHChlagou/aegis?sort=semver&display_name=tag)](https://github.com/MHChlagou/aegis/releases/latest)
+[![Go version](https://img.shields.io/github/go-mod/go-version/MHChlagou/aegis)](go.mod)
+[![Docs](https://img.shields.io/badge/docs-mhchlagou.github.io%2Faegis-blue)](https://MHChlagou.github.io/aegis/)
 
 A single-binary, shift-left security orchestrator that runs as a Git hook (and in CI). One declarative spec file, zero runtime dependencies, and the best-in-class OSS scanners you already trust.
 
-**[Documentation](https://aegis-sec.github.io/aegis/)** · **[Changelog](CHANGELOG.md)** · **[Contributing](CONTRIBUTING.md)** · **[Security](SECURITY.md)**
+**[Documentation](https://MHChlagou.github.io/aegis/)** · **[Changelog](CHANGELOG.md)** · **[Contributing](CONTRIBUTING.md)** · **[Security](SECURITY.md)**
 
 ---
 
 ## Introduction
 
-Most teams want shift-left security — secrets, SAST, SCA, lint, format — on every commit. The existing landscape forces a choice:
+Most teams want shift-left security - secrets, SAST, SCA, lint, format - on every commit. The existing landscape forces a choice:
 
 - **Glue it yourself.** Husky + lint-staged + N tools, each with its own config. Brittle, drifts between repos, breaks when anyone upgrades anything.
 - **Adopt a SaaS.** Expensive, opaque, and almost always a "black box" running rules you can't audit.
@@ -52,7 +52,7 @@ Currently wired engines: `gitleaks` (secrets), `opengrep` (SAST), `osv-scanner` 
 
 ### Install the binary
 
-Download a release binary for your platform from GitHub Releases (or `go install github.com/aegis-sec/aegis/cmd/aegis@latest` for development), and put it on `$PATH`.
+Download a release binary for your platform from GitHub Releases (or `go install github.com/MHChlagou/aegis/cmd/aegis@latest` for development), and put it on `$PATH`.
 
 Verify:
 
@@ -77,7 +77,7 @@ aegis doctor        # verifies scanner binaries + sha256 hashes
 Aegis verifies each scanner's sha256 before running it. The default spec names them; you install them:
 
 ```bash
-# Examples — use the real releases for your platform
+# Examples - use the real releases for your platform
 mkdir -p ~/.aegis/bin
 curl -fsSL https://github.com/gitleaks/gitleaks/releases/download/v8.28.0/... -o ~/.aegis/bin/gitleaks && chmod +x ~/.aegis/bin/gitleaks
 # …same for opengrep, osv-scanner, biome/ruff/golangci-lint as your stack needs
@@ -116,7 +116,7 @@ testKey := "AKIAFAKEFAKEFAKE1234"
 # aegis:ignore-rule=SQLi.raw-concat  reason="hardened elsewhere"
 ```
 
-A reason is **mandatory** — an inline ignore without one is itself a finding.
+A reason is **mandatory** - an inline ignore without one is itself a finding.
 
 ### Emergency bypass
 
@@ -159,7 +159,7 @@ hooks:
 
 ### Key sections
 
-**`binaries`** — declare the scanners Aegis may execute. Each needs a `version`, optional `path`, per-platform `sha256`, and `install_hint`:
+**`binaries`** - declare the scanners Aegis may execute. Each needs a `version`, optional `path`, per-platform `sha256`, and `install_hint`:
 
 ```yaml
 binaries:
@@ -174,21 +174,21 @@ binaries:
 
 Resolution order: `binaries.X.path` → `$AEGIS_BIN_DIR/X` → `~/.aegis/bin/X` → `$PATH`. Sha256 is verified on every run.
 
-**`checks`** — one subtree per check. Each supports `enabled`, `mode` (`block`/`warn`/`off`; `fix`/`check`/`off` for format), an `engine` where applicable, and check-specific knobs like `warn_paths`, `severity_threshold`, `block_severity`, `ignore_cves`.
+**`checks`** - one subtree per check. Each supports `enabled`, `mode` (`block`/`warn`/`off`; `fix`/`check`/`off` for format), an `engine` where applicable, and check-specific knobs like `warn_paths`, `severity_threshold`, `block_severity`, `ignore_cves`.
 
-**`scope`** — which files are scanned. Staged-only by default; globbed `exclude_paths` apply globally; `full_scan_for: [dependencies]` forces full-tree for specified checks.
+**`scope`** - which files are scanned. Staged-only by default; globbed `exclude_paths` apply globally; `full_scan_for: [dependencies]` forces full-tree for specified checks.
 
-**`hooks`** — map each hook (`pre-commit`, `pre-push`, `commit-msg`) to a check list and `fail_fast` flag.
+**`hooks`** - map each hook (`pre-commit`, `pre-push`, `commit-msg`) to a check list and `fail_fast` flag.
 
-**`output`** — `format: pretty|json|sarif|junit`, `group_by`, `color`, `verbosity`.
+**`output`** - `format: pretty|json|sarif|junit`, `group_by`, `color`, `verbosity`.
 
-**`override`** — bypass controls: `env_var` (default `AEGIS_SKIP`), `require_reason`, `log_file`, `protect_secrets`, `allow_no_verify`.
+**`override`** - bypass controls: `env_var` (default `AEGIS_SKIP`), `require_reason`, `log_file`, `protect_secrets`, `allow_no_verify`.
 
-**`performance`** — `parallel: auto|<int>`, per-check and total timeouts, cache settings.
+**`performance`** - `parallel: auto|<int>`, per-check and total timeouts, cache settings.
 
-**`strict_versions: true`** — refuses to run any binary that has no sha256 declared for the current platform. Recommended.
+**`strict_versions: true`** - refuses to run any binary that has no sha256 declared for the current platform. Recommended.
 
-The full schema is documented inline in [`docs/docs/reference/spec.md`](docs/docs/reference/spec.md), and rendered at the [documentation site](https://aegis-sec.github.io/aegis/configuration/).
+The full schema is documented inline in [`docs/docs/reference/spec.md`](docs/docs/reference/spec.md), and rendered at the [documentation site](https://MHChlagou.github.io/aegis/configuration/).
 
 ### Environment variables
 
@@ -242,7 +242,7 @@ When you `git commit`, the pre-commit hook invokes `aegis run --hook pre-commit`
 
 | Code | Meaning                                              |
 |------|------------------------------------------------------|
-| 0    | Success — no blocking findings                       |
+| 0    | Success - no blocking findings                       |
 | 1    | Blocking findings detected                           |
 | 2    | Configuration error                                  |
 | 3    | Binary resolution or verification failure            |
@@ -313,10 +313,10 @@ See [`docs/docs/architecture.md`](docs/docs/architecture.md) for the dependency 
 
 ## Community
 
-- **Documentation:** <https://aegis-sec.github.io/aegis/>
-- **Discussions:** [GitHub Discussions](https://github.com/aegis-sec/aegis/discussions) — questions, setup help, roadmap.
-- **Issues:** [GitHub Issues](https://github.com/aegis-sec/aegis/issues) — bugs, feature requests.
-- **Security reports:** [GitHub Private Vulnerability Reporting](https://github.com/aegis-sec/aegis/security/advisories/new) — see [`SECURITY.md`](SECURITY.md).
+- **Documentation:** <https://MHChlagou.github.io/aegis/>
+- **Discussions:** [GitHub Discussions](https://github.com/MHChlagou/aegis/discussions) - questions, setup help, roadmap.
+- **Issues:** [GitHub Issues](https://github.com/MHChlagou/aegis/issues) - bugs, feature requests.
+- **Security reports:** [GitHub Private Vulnerability Reporting](https://github.com/MHChlagou/aegis/security/advisories/new) - see [`SECURITY.md`](SECURITY.md).
 - **Contributing:** [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
 - **Release notes:** [`CHANGELOG.md`](CHANGELOG.md).
 

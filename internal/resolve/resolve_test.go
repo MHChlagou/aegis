@@ -8,7 +8,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/aegis-sec/aegis/internal/config"
+	"github.com/MHChlagou/aegis/internal/config"
 )
 
 // writeFakeBinary creates an executable file with known content and returns its path + hash.

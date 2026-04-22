@@ -49,7 +49,7 @@ Removes the entry with the given id. IDs are stable across runs; they are a shor
 
 ## Authoring directly
 
-The file is plain YAML — you can also edit it by hand. See [the allowlist docs](../baseline-allowlist.md#allowlist) for the schema. The CLI exists for tab-completion, reason enforcement, and avoiding typos.
+The file is plain YAML - you can also edit it by hand. See [the allowlist docs](../baseline-allowlist.md#allowlist) for the schema. The CLI exists for tab-completion, reason enforcement, and avoiding typos.
 
 ## Exit codes
 

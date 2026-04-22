@@ -9,13 +9,13 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/aegis-sec/aegis/internal/checker"
-	"github.com/aegis-sec/aegis/internal/config"
-	"github.com/aegis-sec/aegis/internal/detect"
-	"github.com/aegis-sec/aegis/internal/filter"
-	"github.com/aegis-sec/aegis/internal/finding"
-	"github.com/aegis-sec/aegis/internal/resolve"
-	"github.com/aegis-sec/aegis/internal/runner"
+	"github.com/MHChlagou/aegis/internal/checker"
+	"github.com/MHChlagou/aegis/internal/config"
+	"github.com/MHChlagou/aegis/internal/detect"
+	"github.com/MHChlagou/aegis/internal/filter"
+	"github.com/MHChlagou/aegis/internal/finding"
+	"github.com/MHChlagou/aegis/internal/resolve"
+	"github.com/MHChlagou/aegis/internal/runner"
 )
 
 func cmdBaseline() *cobra.Command {

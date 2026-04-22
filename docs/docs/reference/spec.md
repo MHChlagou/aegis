@@ -1,4 +1,4 @@
-# Aegis — Technical Specification
+# Aegis - Technical Specification
 
 **Version:** 0.1 (draft)
 **Status:** design / pre-implementation
@@ -8,7 +8,7 @@
 
 ## 0. Name and Tagline
 
-**Aegis** — *the shield your commits pass through.*
+**Aegis** - *the shield your commits pass through.*
 
 The name comes from Greek mythology (Athena's/Zeus's protective shield). It is short (5 letters), easy to type as a CLI (`aegis run`), and evokes "defensive layer in front of something valuable." If the name needs to change later, the binary name, config directory (`.aegis/`), and config filename (`aegis.yaml`) are the only identifiers that need updating.
 
@@ -93,7 +93,7 @@ Developer teams want shift-left security (secrets, SAST, SCA, lint, format) on e
 
 - **Orchestrator-only.** Aegis never contains a rule, a regex, or a CVE list.
 - **Declarative.** Every behavior change happens in `aegis.yaml`, never in code flags at call sites.
-- **Fail closed.** If a required scanner is missing, the commit is blocked with a clear install hint — never silently skipped.
+- **Fail closed.** If a required scanner is missing, the commit is blocked with a clear install hint - never silently skipped.
 - **Everything is JSON internally.** Pretty output is one of several formatters; machine formats are first-class.
 
 ---
@@ -122,7 +122,7 @@ When a user runs `aegis init` in a repo, Aegis creates:
 
 ---
 
-## 5. The Spec File (`aegis.yaml`) — Full Schema
+## 5. The Spec File (`aegis.yaml`) - Full Schema
 
 All keys are optional unless marked **required**. Unknown keys produce a warning, not an error, so forward-compatibility is maintained.
 
@@ -142,7 +142,7 @@ project:
     - pom.xml
 
 # -----------------------------------------------------------
-# Scanner binaries — user-installed, Aegis verifies & executes
+# Scanner binaries - user-installed, Aegis verifies & executes
 # -----------------------------------------------------------
 binaries:
   gitleaks:
@@ -281,7 +281,7 @@ checks:
       shell:       shfmt
 
 # -----------------------------------------------------------
-# Scope — what files Aegis looks at
+# Scope - what files Aegis looks at
 # -----------------------------------------------------------
 scope:
   staged_only: true                    # default for pre-commit
@@ -295,7 +295,7 @@ scope:
     - "*.min.js"
 
 # -----------------------------------------------------------
-# Hooks — which checks run at which git event
+# Hooks - which checks run at which git event
 # -----------------------------------------------------------
 hooks:
   pre-commit:
@@ -420,7 +420,7 @@ Multi-stack is supported and expected: a repo can detect as `[npm, python, docke
 
 ---
 
-## 8. Checks — Detailed Specification
+## 8. Checks - Detailed Specification
 
 Every check produces zero or more `Finding` objects with a normalized schema:
 
@@ -460,12 +460,12 @@ type Finding struct {
 - Runs only on staged files in pre-commit; respects `exclude_paths`.
 - Rulesets can be registry refs (`p/security-audit`) or local directories.
 - Severity mapping: Semgrep/OpenGrep `ERROR → HIGH`, `WARNING → MEDIUM`, `INFO → LOW`.
-- **Note on "malicious code":** Aegis positions this as "insecure or suspicious patterns" — injection sinks, eval-of-user-input, hardcoded keys, unsafe deserialization, etc. It is **not** behavioral malware detection. The CLI prints this clarification on first run.
+- **Note on "malicious code":** Aegis positions this as "insecure or suspicious patterns" - injection sinks, eval-of-user-input, hardcoded keys, unsafe deserialization, etc. It is **not** behavioral malware detection. The CLI prints this clarification on first run.
 
 ### 8.3 Dependency Vulnerabilities (SCA)
 
 - **Default engine:** `osv-scanner` (Google-maintained, OSV.dev, guided remediation).
-- **Alternatives:** `grype` (Anchore), `trivy` (broader scope; pin to a post-incident safe version — see §16).
+- **Alternatives:** `grype` (Anchore), `trivy` (broader scope; pin to a post-incident safe version - see §16).
 - **Flow:**
   1. Detect lockfiles from auto-detected stacks (`package-lock.json`, `pom.xml`, `go.sum`, `Cargo.lock`, `requirements.txt`, `poetry.lock`, etc.).
   2. Run scanner in offline mode if `offline.enabled`, else online.
@@ -478,13 +478,13 @@ type Finding struct {
 
 - Per-language adapters pick the canonical tool (see defaults in §5 and appendix A).
 - **Staged-only** by default. For languages with multi-file awareness (TypeScript, Java), Aegis passes the minimal context needed (project root + staged files); the adapter handles how.
-- `mode: warn` by default — lint never blocks a commit. Teams that want strict lint set `mode: block`.
+- `mode: warn` by default - lint never blocks a commit. Teams that want strict lint set `mode: block`.
 - `auto_fix: true` runs the tool's `--fix` (or equivalent), then `git add` the touched files before the next check runs.
 
 ### 8.5 Formatting
 
 - Same model as linting, but with `mode: fix` as default.
-- After auto-format, changed files are re-staged. If the formatter changes a file that the developer also had unstaged changes in, Aegis **aborts** with a clear error — it never silently discards unstaged work.
+- After auto-format, changed files are re-staged. If the formatter changes a file that the developer also had unstaged changes in, Aegis **aborts** with a clear error - it never silently discards unstaged work.
 
 ---
 
@@ -599,7 +599,7 @@ For checks listed in `scope.full_scan_for`, the full repo file set is used inste
     match: AKIA****XYZ9
     fix:   remove and use AWS_ACCESS_KEY_ID env var
 
-  [WARN]  src/config_test.ts:17   (test file — warn only)
+  [WARN]  src/config_test.ts:17   (test file - warn only)
     rule:  generic-api-key
     match: sk_test_****1234
 
@@ -612,9 +612,9 @@ For checks listed in `scope.full_scan_for`, the full repo file set is used inste
 ── dependencies ────────────────────────────────────────
   [WARN]  package-lock.json
     lodash@4.17.20  →  fix available: 4.17.21
-    CVE-2021-23337 (HIGH) — Command Injection
+    CVE-2021-23337 (HIGH) - Command Injection
 
-✖ commit blocked — 2 blocking findings
+✖ commit blocked - 2 blocking findings
   bypass: AEGIS_SKIP=secrets,malicious_code git commit  (requires reason)
 ```
 
@@ -648,7 +648,7 @@ Optional (`output.format: junit`) for CI systems that only parse JUnit XML.
 
 | Code | Meaning                                                       |
 |------|---------------------------------------------------------------|
-| 0    | Success — no blocking findings                                |
+| 0    | Success - no blocking findings                                |
 | 1    | Blocking findings detected                                    |
 | 2    | Configuration error (invalid spec, missing required field)    |
 | 3    | Binary resolution or verification failure                     |
@@ -691,7 +691,7 @@ Global flags: `--config <path>`, `--output <format>`, `--quiet`, `--verbose`, `-
 
 ```bash
 #!/usr/bin/env sh
-# .git/hooks/pre-commit — generated by aegis; do not edit
+# .git/hooks/pre-commit - generated by aegis; do not edit
 exec aegis run --hook pre-commit "$@"
 ```
 
@@ -791,7 +791,7 @@ Aegis is itself a supply-chain-sensitive tool. It executes external binaries wit
 
 1. **Mandatory sha256 verification** of every external binary on every run.
 2. **No auto-download by default.** `aegis install <tool>` is opt-in; when used, downloads only over HTTPS from allow-listed hosts.
-3. **Spec schema limits.** `binaries.X.path` is rejected if it resolves outside: repo root, `$HOME`, or absolute system paths. Relative paths inside the repo (i.e., pointing at a vendored binary) are **always rejected** — defense in depth against a malicious PR slipping a binary in.
+3. **Spec schema limits.** `binaries.X.path` is rejected if it resolves outside: repo root, `$HOME`, or absolute system paths. Relative paths inside the repo (i.e., pointing at a vendored binary) are **always rejected** - defense in depth against a malicious PR slipping a binary in.
 4. **Signed releases.** Aegis binaries are published with Sigstore cosign signatures and a SLSA Level 3 provenance attestation. `aegis version --verify` checks its own binary.
 5. **Reproducible builds.** The build is bit-reproducible; anyone can verify the release from source.
 6. **Capability minimization.** Aegis does not open outbound network connections except when: (a) downloading the OSV DB for the `dependencies` check in online mode, (b) the user runs `aegis install <tool>`. Both are explicit.
@@ -818,7 +818,7 @@ Tactics: parallel scanner execution, staged-only scanning, cached OSV DB, memoiz
 
 ---
 
-## 18. Extensibility — Plugin Interface
+## 18. Extensibility - Plugin Interface
 
 To add a new check type, implement the `Checker` interface:
 
@@ -864,10 +864,10 @@ v1 ships built-in checkers for the five features. External plugins are deferred 
 
 Rules for every error message:
 
-1. **What went wrong** — one-line plain English.
-2. **Where** — file/line/config key involved.
-3. **Why it matters** — one line.
-4. **How to fix** — a command or a URL.
+1. **What went wrong** - one-line plain English.
+2. **Where** - file/line/config key involved.
+3. **Why it matters** - one line.
+4. **How to fix** - a command or a URL.
 
 Example:
 
@@ -889,7 +889,7 @@ No stack traces by default. `--verbose` enables them.
 - **Scoop bucket** for Windows.
 - **Debian/RPM** packages via `nfpm`.
 - **Docker image** (`ghcr.io/<org>/aegis:<version>`), minimal base, single binary.
-- **Install script** (`curl -sSL https://aegis.<domain>/install.sh | sh`) — with sha256 + signature verification baked in.
+- **Install script** (`curl -sSL https://aegis.<domain>/install.sh | sh`) - with sha256 + signature verification baked in.
 - **No `npm install`, no `pip install`.** Those would contradict the zero-runtime goal.
 
 Every release includes: the binary, its sha256, its Sigstore signature, a SLSA provenance attestation, an SBOM (CycloneDX).
@@ -898,7 +898,7 @@ Every release includes: the binary, its sha256, its Sigstore signature, a SLSA p
 
 ## 21. Roadmap
 
-### v1.0 (MVP — target: ~8–10 weeks of focused work)
+### v1.0 (MVP - target: ~8–10 weeks of focused work)
 
 - Checks: secrets (gitleaks), malicious_code (opengrep), dependencies (osv-scanner), lint (biome/ruff/golangci-lint), format (biome/ruff/gofmt).
 - Auto-detect: npm, go, python.
@@ -930,7 +930,7 @@ Every release includes: the binary, its sha256, its Sigstore signature, a SLSA p
 
 ---
 
-## Appendix A — Default Scanner Matrix
+## Appendix A - Default Scanner Matrix
 
 | Stack     | Lint              | Format      | SCA           |
 |-----------|-------------------|-------------|---------------|
@@ -945,11 +945,11 @@ Every release includes: the binary, its sha256, its Sigstore signature, a SLSA p
 
 Secrets and malicious_code scanners are language-agnostic.
 
-## Appendix B — Exit Code Reference
+## Appendix B - Exit Code Reference
 
 See §11.5.
 
-## Appendix C — Environment Variables
+## Appendix C - Environment Variables
 
 | Variable              | Purpose                                                        |
 |-----------------------|----------------------------------------------------------------|
@@ -962,7 +962,7 @@ See §11.5.
 | `AEGIS_OFFLINE`       | Force offline mode globally                                    |
 | `NO_COLOR`            | Honored per the no-color.org convention                        |
 
-## Appendix D — Glossary
+## Appendix D - Glossary
 
 - **Check.** One of the five Aegis-defined analysis categories.
 - **Engine.** The underlying scanner a check is configured to use.

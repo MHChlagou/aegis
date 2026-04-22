@@ -5,10 +5,10 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/aegis-sec/aegis/internal/config"
-	"github.com/aegis-sec/aegis/internal/detect"
-	"github.com/aegis-sec/aegis/internal/finding"
-	"github.com/aegis-sec/aegis/internal/resolve"
+	"github.com/MHChlagou/aegis/internal/config"
+	"github.com/MHChlagou/aegis/internal/detect"
+	"github.com/MHChlagou/aegis/internal/finding"
+	"github.com/MHChlagou/aegis/internal/resolve"
 )
 
 type Stats struct {

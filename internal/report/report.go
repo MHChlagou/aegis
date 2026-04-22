@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aegis-sec/aegis/internal/finding"
-	"github.com/aegis-sec/aegis/internal/version"
+	"github.com/MHChlagou/aegis/internal/finding"
+	"github.com/MHChlagou/aegis/internal/version"
 )
 
 // ExitCodes mirror spec §11.5.
@@ -72,7 +72,7 @@ func WriteJSON(w io.Writer, s Summary) error {
 func WritePretty(w io.Writer, s Summary, color bool, stagedFiles int) {
 	c := palette{enabled: color}
 	fmt.Fprintln(w, c.dim(strings.Repeat("─", 58)))
-	fmt.Fprintf(w, " Aegis %s — repo: %s  stacks: %s\n", version.Version, s.Repo, strings.Join(s.Stacks, ","))
+	fmt.Fprintf(w, " Aegis %s - repo: %s  stacks: %s\n", version.Version, s.Repo, strings.Join(s.Stacks, ","))
 	if s.Hook != "" {
 		fmt.Fprintf(w, " hook: %s   staged: %d files\n", s.Hook, stagedFiles)
 	}
@@ -132,10 +132,10 @@ func WritePretty(w io.Writer, s Summary, color bool, stagedFiles int) {
 		fmt.Fprintln(w)
 	}
 	if s.Summary.Blocking > 0 {
-		fmt.Fprintf(w, "%s commit blocked — %d blocking finding(s)\n", c.red("✖"), s.Summary.Blocking)
+		fmt.Fprintf(w, "%s commit blocked - %d blocking finding(s)\n", c.red("✖"), s.Summary.Blocking)
 		fmt.Fprintln(w, "  bypass: AEGIS_SKIP=<checks> AEGIS_REASON=\"...\" git commit")
 	} else {
-		fmt.Fprintf(w, "%s ok — %d non-blocking finding(s)\n", c.green("✓"), s.Summary.Total)
+		fmt.Fprintf(w, "%s ok - %d non-blocking finding(s)\n", c.green("✓"), s.Summary.Total)
 	}
 }
 

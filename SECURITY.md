@@ -44,7 +44,7 @@ Out of scope (please report upstream):
 - Bugs in third-party scanner binaries (`gitleaks`, `opengrep`, `osv-scanner`,
   `biome`, `ruff`, `golangci-lint`, `gofmt`, `shellcheck`). Aegis is a
   coordinator, not the scanner author.
-- Issues in the Go standard library or dependencies — file against those
+- Issues in the Go standard library or dependencies - file against those
   upstream projects, and we will pick up fixes via `go mod tidy` + releases.
 
 ## Hardening notes for operators

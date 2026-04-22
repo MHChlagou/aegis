@@ -11,7 +11,7 @@ Every time `aegis run` invokes a scanner, it does four things in order before ha
 3. **Computes the SHA256 of the binary on disk** and compares against the pinned hash for the running `(os, arch)`.
 4. **Only then** executes the scanner with the staged file list.
 
-If any of steps 2–3 fail with `strict_versions: true` (the default), the whole run exits with code `3` — not the individual scanner. This is by design: if a pin is wrong, you want to know before producing a possibly-tainted report.
+If any of steps 2–3 fail with `strict_versions: true` (the default), the whole run exits with code `3` - not the individual scanner. This is by design: if a pin is wrong, you want to know before producing a possibly-tainted report.
 
 ## The pin file
 
@@ -59,7 +59,7 @@ The `aegis` binary itself is built by a SHA-pinned GitHub Actions workflow (`rel
 cosign verify-blob \
   --certificate aegis-linux-amd64.sig.crt \
   --signature  aegis-linux-amd64.sig \
-  --certificate-identity-regexp 'https://github.com/aegis-sec/aegis/.github/workflows/release.yml@.*' \
+  --certificate-identity-regexp 'https://github.com/MHChlagou/aegis/.github/workflows/release.yml@.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
   aegis-linux-amd64
 ```

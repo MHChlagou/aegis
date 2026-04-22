@@ -6,12 +6,12 @@ body:
     attributes:
       value: |
         Thanks for taking the time to file a bug report. Please fill in as much
-        of the form below as you can — it helps us reproduce and fix the issue
+        of the form below as you can - it helps us reproduce and fix the issue
         quickly.
 
         **Not for security issues.** If you believe you have found a security
         problem, please use
-        [GitHub Private Vulnerability Reporting](https://github.com/aegis-sec/aegis/security/advisories/new)
+        [GitHub Private Vulnerability Reporting](https://github.com/MHChlagou/aegis/security/advisories/new)
         instead.
 
   - type: input
@@ -35,7 +35,7 @@ body:
     id: go-version
     attributes:
       label: Go version (only if building from source)
-      placeholder: "go1.22.3"
+      placeholder: "go1.25.3"
 
   - type: textarea
     id: what-happened

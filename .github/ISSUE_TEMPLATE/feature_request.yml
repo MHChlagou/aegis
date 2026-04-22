@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Thanks for suggesting an improvement. Before filing, please check the
-        [roadmap](../../docs/docs/reference/spec.md#21-roadmap) — your idea may
+        [roadmap](../../docs/docs/reference/spec.md#21-roadmap) - your idea may
         already be planned.
 
   - type: textarea

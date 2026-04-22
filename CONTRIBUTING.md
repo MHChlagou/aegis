@@ -14,7 +14,7 @@ By participating, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md
 - **Request a feature.** Use the **Feature request** template. If it fits our
   published roadmap (see [`spec.md`](docs/docs/reference/spec.md) §21), we'll label it
   `roadmap`; otherwise expect a design discussion first.
-- **Report a vulnerability.** Do **not** open a public issue — follow
+- **Report a vulnerability.** Do **not** open a public issue - follow
   [`SECURITY.md`](SECURITY.md).
 - **Submit a pull request.** See below.
 
@@ -22,13 +22,13 @@ By participating, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md
 
 ## Development setup
 
-You need Go `1.22+` and `make`. Optional but helpful: `golangci-lint`,
+You need Go `1.25+` and `make`. Optional but helpful: `golangci-lint`,
 `govulncheck`.
 
 ```bash
-git clone https://github.com/aegis-sec/aegis.git
+git clone https://github.com/MHChlagou/aegis.git
 cd aegis
-make ci        # fmt + vet + lint + test + build — the same gates CI runs
+make ci        # fmt + vet + lint + test + build - the same gates CI runs
 ```
 
 Useful targets (see [`Makefile`](Makefile) for the full list):
@@ -53,7 +53,7 @@ Useful targets (see [`Makefile`](Makefile) for the full list):
    bug, fix it in a follow-up PR.
 4. **Write a test.** New features need unit tests. Bug fixes need a regression
    test that fails without the fix.
-5. **Use Conventional Commits** for the PR title — the `pr-checks.yml`
+5. **Use Conventional Commits** for the PR title - the `pr-checks.yml`
    workflow enforces this. Allowed types:
 
    ```
@@ -96,7 +96,7 @@ Scanner adapters live in `internal/checker/`. A minimal adapter must:
    `Normalize` path and asserts a stable `[]Finding` slice.
 4. Have an entry in `internal/config/defaults_spec.go` under the appropriate
    stack, with **pinned SHA256s** for the upstream binary releases on each
-   supported platform. Do not wire an adapter without hashes — Aegis refuses to
+   supported platform. Do not wire an adapter without hashes - Aegis refuses to
    execute unverified binaries.
 5. Have a docs page under `docs/docs/scanners/`.
 
@@ -114,7 +114,7 @@ downstream repositories. Be especially careful with:
   every bypass must be recorded with a mandatory reason.
 - **Exit codes**: changes must be reflected in `spec.md` §11.5.
 
-These files are listed in [`CODEOWNERS`](.github/CODEOWNERS) — review from a
+These files are listed in [`CODEOWNERS`](.github/CODEOWNERS) - review from a
 code owner is mandatory before merging.
 
 ---

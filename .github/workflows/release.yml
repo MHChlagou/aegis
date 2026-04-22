@@ -25,7 +25,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
-          go-version: "1.22"
+          go-version: "1.25"
           cache: true
 
       - name: Install Cosign
@@ -47,9 +47,9 @@ jobs:
             local out="dist/aegis-${os}-${arch}${ext}"
             GOOS="${os}" GOARCH="${arch}" CGO_ENABLED=0 go build -trimpath \
               -ldflags "-s -w \
-                -X github.com/aegis-sec/aegis/internal/version.Version=${version} \
-                -X github.com/aegis-sec/aegis/internal/version.Commit=${commit} \
-                -X github.com/aegis-sec/aegis/internal/version.Date=${date}" \
+                -X github.com/MHChlagou/aegis/internal/version.Version=${version} \
+                -X github.com/MHChlagou/aegis/internal/version.Commit=${commit} \
+                -X github.com/MHChlagou/aegis/internal/version.Date=${date}" \
               -o "${out}" ./cmd/aegis
             sha256sum "${out}" | awk '{print $1}' > "${out}.sha256"
           }

@@ -45,15 +45,15 @@ Verify the workflow completed and all artifacts are attached before announcing.
 ```bash
 # Download and verify one platform as a sanity check.
 version=0.1.0
-curl -fsSLO "https://github.com/aegis-sec/aegis/releases/download/v${version}/aegis-linux-amd64"
-curl -fsSLO "https://github.com/aegis-sec/aegis/releases/download/v${version}/aegis-linux-amd64.sha256"
+curl -fsSLO "https://github.com/MHChlagou/aegis/releases/download/v${version}/aegis-linux-amd64"
+curl -fsSLO "https://github.com/MHChlagou/aegis/releases/download/v${version}/aegis-linux-amd64.sha256"
 sha256sum -c aegis-linux-amd64.sha256
 
 # Sigstore verification.
 cosign verify-blob \
   --certificate aegis-linux-amd64.sig.crt \
   --signature  aegis-linux-amd64.sig \
-  --certificate-identity-regexp 'https://github.com/aegis-sec/aegis/.github/workflows/release.yml@.*' \
+  --certificate-identity-regexp 'https://github.com/MHChlagou/aegis/.github/workflows/release.yml@.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
   aegis-linux-amd64
 ```
@@ -69,7 +69,7 @@ cosign verify-blob \
 
 If a release needs to be pulled:
 
-1. Add a **yank notice** to the top of the GitHub Release body. Do not delete the release — downstreams may already have it pinned.
+1. Add a **yank notice** to the top of the GitHub Release body. Do not delete the release - downstreams may already have it pinned.
 2. Open a tracking issue explaining what was wrong and which version to use instead.
 3. Cut a patch release with the fix.
 4. Leave the tag in place. Git tag deletion is a supply-chain footgun.

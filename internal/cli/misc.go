@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 
-	"github.com/aegis-sec/aegis/internal/filter"
+	"github.com/MHChlagou/aegis/internal/filter"
 )
 
 // cmdIgnore adds a rule+path pair to .aegis/allowlist.yaml.

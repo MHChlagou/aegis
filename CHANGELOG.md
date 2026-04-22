@@ -26,5 +26,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   an end-to-end self-smoke test.
 - Release workflow with keyless signing on tagged versions.
 
-[Unreleased]: https://github.com/aegis-sec/aegis/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/aegis-sec/aegis/releases/tag/v0.1.0
+[Unreleased]: https://github.com/MHChlagou/aegis/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/MHChlagou/aegis/releases/tag/v0.1.0

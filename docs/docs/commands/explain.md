@@ -1,6 +1,6 @@
 # `aegis explain`
 
-Print the documentation pointer for a scanner rule. Aegis does not ship its own rule knowledge base — each scanner maintains its own — so `explain` is a thin redirect to the upstream rule's canonical URL plus any adapter-specific notes.
+Print the documentation pointer for a scanner rule. Aegis does not ship its own rule knowledge base - each scanner maintains its own - so `explain` is a thin redirect to the upstream rule's canonical URL plus any adapter-specific notes.
 
 ## Usage
 

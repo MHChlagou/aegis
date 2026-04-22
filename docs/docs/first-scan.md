@@ -4,7 +4,7 @@ Once you have `aegis` on `$PATH` and at least one scanner installed, running a s
 
 ## Scenario
 
-A small Go service with `gofmt` and `golangci-lint` installed. No hooks installed yet — we will invoke Aegis directly.
+A small Go service with `gofmt` and `golangci-lint` installed. No hooks installed yet - we will invoke Aegis directly.
 
 ```bash
 cd my-service
@@ -73,7 +73,7 @@ aegis run --output json | jq '.findings[0]'
 }
 ```
 
-`fingerprint` is a stable hash across (scanner, rule, file, line, normalized message) — that is what [baselines](baseline-allowlist.md) use to recognize a pre-existing finding between runs.
+`fingerprint` is a stable hash across (scanner, rule, file, line, normalized message) - that is what [baselines](baseline-allowlist.md) use to recognize a pre-existing finding between runs.
 
 ## Exit codes at a glance
 

@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/aegis-sec/aegis/internal/checker"
-	"github.com/aegis-sec/aegis/internal/config"
-	"github.com/aegis-sec/aegis/internal/detect"
-	"github.com/aegis-sec/aegis/internal/finding"
+	"github.com/MHChlagou/aegis/internal/checker"
+	"github.com/MHChlagou/aegis/internal/config"
+	"github.com/MHChlagou/aegis/internal/detect"
+	"github.com/MHChlagou/aegis/internal/finding"
 )
 
 type fakeChecker struct {
