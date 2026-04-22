@@ -25,15 +25,19 @@ const (
 )
 
 type Summary struct {
-	Version      int               `json:"version"`
-	AegisVersion string            `json:"aegis_version"`
-	Repo         string            `json:"repo"`
-	Stacks       []string          `json:"stacks"`
-	StartedAt    string            `json:"started_at"`
-	DurationMS   int               `json:"duration_ms"`
-	Hook         string            `json:"hook"`
-	Summary      Counts            `json:"summary"`
-	Findings     []finding.Finding `json:"findings"`
+	Version      int      `json:"version"`
+	AegisVersion string   `json:"aegis_version"`
+	Repo         string   `json:"repo"`
+	Stacks       []string `json:"stacks"`
+	StartedAt    string   `json:"started_at"`
+	DurationMS   int      `json:"duration_ms"`
+	Hook         string   `json:"hook"`
+	// ChecksRun lists the checks that were actually executed in this run,
+	// in spec order. Checks that were filtered out (via --check, --hook, or
+	// AEGIS_SKIP) or disabled in config are intentionally absent.
+	ChecksRun []string          `json:"checks_run"`
+	Summary   Counts            `json:"summary"`
+	Findings  []finding.Finding `json:"findings"`
 }
 
 type Counts struct {
@@ -41,7 +45,7 @@ type Counts struct {
 	Total    int `json:"total"`
 }
 
-func NewSummary(repo, hook string, stacks []string, start time.Time, findings []finding.Finding) Summary {
+func NewSummary(repo, hook string, stacks, checksRun []string, start time.Time, findings []finding.Finding) Summary {
 	s := Summary{
 		Version:      1,
 		AegisVersion: version.Version,
@@ -50,6 +54,7 @@ func NewSummary(repo, hook string, stacks []string, start time.Time, findings []
 		StartedAt:    start.UTC().Format(time.RFC3339),
 		DurationMS:   int(time.Since(start) / time.Millisecond),
 		Hook:         hook,
+		ChecksRun:    orderedIntersect(checksRun),
 		Findings:     findings,
 	}
 	for _, f := range findings {
@@ -83,9 +88,9 @@ func WritePretty(w io.Writer, s Summary, color bool, stagedFiles int) {
 	}
 	fpln(w, c.dim(strings.Repeat("─", 58)))
 
-	// Summary line per check
+	// Summary line per check - only for checks that actually ran.
 	byCheck := groupByCheck(s.Findings)
-	for _, check := range orderedChecks {
+	for _, check := range s.ChecksRun {
 		fns, ok := byCheck[check]
 		if !ok {
 			fpf(w, "  %s %-16s all clean\n", c.green("✓"), check)
@@ -105,7 +110,7 @@ func WritePretty(w io.Writer, s Summary, color bool, stagedFiles int) {
 	}
 	fpln(w)
 
-	for _, check := range orderedChecks {
+	for _, check := range s.ChecksRun {
 		fns, ok := byCheck[check]
 		if !ok {
 			continue
@@ -145,6 +150,23 @@ func WritePretty(w io.Writer, s Summary, color bool, stagedFiles int) {
 }
 
 var orderedChecks = []string{"secrets", "malicious_code", "dependencies", "lint", "format"}
+
+// orderedIntersect returns checksRun in the canonical spec order and drops any
+// unknown names. Keeps the output deterministic regardless of the caller's
+// input order.
+func orderedIntersect(checksRun []string) []string {
+	want := make(map[string]bool, len(checksRun))
+	for _, c := range checksRun {
+		want[c] = true
+	}
+	out := make([]string, 0, len(checksRun))
+	for _, c := range orderedChecks {
+		if want[c] {
+			out = append(out, c)
+		}
+	}
+	return out
+}
 
 func groupByCheck(fs []finding.Finding) map[string][]finding.Finding {
 	m := map[string][]finding.Finding{}

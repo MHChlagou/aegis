@@ -100,7 +100,7 @@ func cmdRun() *cobra.Command {
 			gated := gate.Apply(spec, al, base, root, allFindings)
 			finding.Sort(gated)
 
-			summary := report.NewSummary(projectName(root), hookName, proj.Stacks, start, gated)
+			summary := report.NewSummary(projectName(root), hookName, proj.Stacks, checks, start, gated)
 
 			switch spec.Output.Format {
 			case "json":
