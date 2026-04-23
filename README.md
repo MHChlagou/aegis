@@ -51,7 +51,25 @@ Currently wired engines: `gitleaks` (secrets), `opengrep` (SAST), `osv-scanner` 
 
 ### Install the binary
 
-Download a release binary for your platform from GitHub Releases (or `go install github.com/MHChlagou/aegis/cmd/aegis@latest` for development), and put it on `$PATH`.
+**macOS / Linux** (pipe the install script):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.sh | sh
+```
+
+**Windows** (PowerShell):
+
+```powershell
+iwr https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.ps1 -UseBasicParsing | iex
+```
+
+**Go toolchain** (for development builds):
+
+```bash
+go install github.com/MHChlagou/aegis/cmd/aegis@latest
+```
+
+The install scripts download the binary for your OS/arch, verify its SHA256, optionally verify the Sigstore signature (if `cosign` is on PATH), and place `aegis` on your `$PATH`. See [installation](https://mhchlagou.github.io/aegis/installation/) for pinning a version, alternate install paths, and manual verification.
 
 Verify:
 

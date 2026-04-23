@@ -10,22 +10,20 @@ This 5-minute walkthrough installs Aegis, wires it into a new Git repository, ru
 
 ## 1. Install Aegis
 
+Pick the install method that fits your environment. All three produce a
+`aegis` binary on `$PATH`. See [installation](installation.md) for pinning
+a version, alternate install paths, and manual SHA256 / cosign verification.
+
 === "macOS / Linux"
 
     ```bash
-    # Release assets are named with Go's GOOS/GOARCH, so map uname output:
-    os="$(uname -s | tr '[:upper:]' '[:lower:]')"
-    arch="$(uname -m)"
-    case "$arch" in
-      x86_64|amd64)   arch=amd64 ;;
-      aarch64|arm64)  arch=arm64 ;;
-      *) echo "unsupported arch: $arch" >&2; exit 1 ;;
-    esac
-    curl -fsSL "https://github.com/MHChlagou/aegis/releases/latest/download/aegis-${os}-${arch}" \
-      -o /usr/local/bin/aegis
-    chmod +x /usr/local/bin/aegis
+    curl -fsSL https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.sh | sh
     aegis version
     ```
+
+    The script detects your OS and architecture, downloads the release
+    binary, verifies its SHA256, and installs to `/usr/local/bin`
+    (falling back to `$HOME/.local/bin` when that is not writable).
 
 === "Go toolchain"
 
@@ -37,11 +35,13 @@ This 5-minute walkthrough installs Aegis, wires it into a new Git repository, ru
 === "Windows (PowerShell)"
 
     ```powershell
-    Invoke-WebRequest `
-      -Uri https://github.com/MHChlagou/aegis/releases/latest/download/aegis-windows-amd64.exe `
-      -OutFile $env:USERPROFILE\bin\aegis.exe
+    iwr https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.ps1 -UseBasicParsing | iex
     aegis version
     ```
+
+    Installs to `$env:USERPROFILE\bin\aegis.exe` by default. The script
+    prints the command to add that directory to your user PATH if it is
+    not already there.
 
 ## 2. Create a demo repo
 

@@ -26,6 +26,15 @@ produced "no sha256 for platform" errors.
   command for your OS and architecture. The command never replaces
   the installed binary; self-updating verifiers are a larger trust
   surface than the UX win warrants.
+- Install scripts (`scripts/install.sh`, `scripts/install.ps1`) for
+  one-line installs. Both detect OS/arch, download the correct
+  release asset, verify its SHA256, and optionally verify the Sigstore
+  bundle when `cosign` is on `$PATH`. Configurable via flags
+  (`--version`, `--install-dir`, `--no-cosign`) and environment
+  variables (`AEGIS_VERSION`, `AEGIS_INSTALL_DIR`,
+  `AEGIS_VERIFY_COSIGN`). The Unix script falls back to
+  `$HOME/.local/bin` when `/usr/local/bin` is not writable and no
+  `sudo` is available.
 - Embedded scanner pin database shipped inside the binary
   (`internal/installer/scanners.yaml`). Covers gitleaks, opengrep,
   osv-scanner, biome, ruff, golangci-lint, and shellcheck across

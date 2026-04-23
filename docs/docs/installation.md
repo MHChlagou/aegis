@@ -10,7 +10,61 @@ Aegis ships as a single static binary. There is no runtime to install, no Node /
 | macOS   | :material-check: | :material-check: |
 | Windows | :material-check: | :material-minus: |
 
-## Install from a release
+## Install with the release script (recommended)
+
+The install scripts detect your OS and architecture, download the
+right release asset, verify its SHA256, and — if `cosign` is on
+`$PATH` — verify the Sigstore signature. They never modify `$PATH`
+behind your back.
+
+=== "macOS / Linux"
+
+    ```bash
+    curl -fsSL https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.sh | sh
+    ```
+
+    Flags and env vars the script accepts:
+
+    | Flag              | Env var                 | Default                              |
+    | ----------------- | ----------------------- | ------------------------------------ |
+    | `--version <tag>` | `AEGIS_VERSION`         | `latest`                             |
+    | `--install-dir`   | `AEGIS_INSTALL_DIR`     | `/usr/local/bin` (→ `$HOME/.local/bin` when not writable and no sudo) |
+    | `--no-cosign`     | `AEGIS_VERIFY_COSIGN=false` | auto (verify when cosign is on PATH) |
+
+    ```bash
+    # Pin a specific version
+    curl -fsSL https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.sh | sh -s -- --version v0.2.0
+
+    # Install into a user-local path without sudo
+    AEGIS_INSTALL_DIR="$HOME/.local/bin" \
+      curl -fsSL https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.sh | sh
+    ```
+
+=== "Windows (PowerShell)"
+
+    ```powershell
+    iwr https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.ps1 -UseBasicParsing | iex
+    ```
+
+    Parameters (pass by downloading and running the script, or via env
+    var when piping):
+
+    | Parameter         | Env var             | Default                      |
+    | ----------------- | ------------------- | ---------------------------- |
+    | `-Version`        | `AEGIS_VERSION`     | `latest`                     |
+    | `-InstallDir`     | `AEGIS_INSTALL_DIR` | `$env:USERPROFILE\bin`       |
+    | `-NoCosign`       | —                   | auto                         |
+
+    ```powershell
+    # Pin a specific version
+    $env:AEGIS_VERSION = 'v0.2.0'
+    iwr https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.ps1 -UseBasicParsing | iex
+    ```
+
+## Install from a release manually
+
+If you prefer to run the steps yourself or your environment blocks the
+`curl | sh` pattern:
 
 1. Download the binary for your platform from the [releases page](https://github.com/MHChlagou/aegis/releases/latest).
 2. Verify the SHA256 checksum (a `.sha256` file sits next to every binary).
@@ -50,24 +104,14 @@ It never modifies the installed binary.
 
 ### Apply the upgrade
 
-The command printed by `aegis upgrade` is the same one used to install
-originally, pinned to the new tag. Re-run it to overwrite the existing
-binary.
+Re-run the install script. It overwrites the existing binary in place
+after verifying the new SHA256 (and cosign signature, if available).
 
 === "macOS / Linux"
 
     ```bash
-    os="$(uname -s | tr '[:upper:]' '[:lower:]')"
-    arch="$(uname -m)"
-    case "$arch" in
-      x86_64|amd64)   arch=amd64 ;;
-      aarch64|arm64)  arch=arm64 ;;
-    esac
-    # Replace v0.2.0 with the tag `aegis upgrade` reported, or use /latest/
-    curl -fsSL "https://github.com/MHChlagou/aegis/releases/download/v0.2.0/aegis-${os}-${arch}" \
-      -o /usr/local/bin/aegis
-    chmod +x /usr/local/bin/aegis
-    aegis version
+    curl -fsSL https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.sh | sh
+    # Or pin: ... | sh -s -- --version v0.2.0
     ```
 
 === "Go toolchain"
@@ -81,10 +125,7 @@ binary.
 
     ```powershell
     # Close any running aegis.exe first — Windows locks running binaries.
-    Invoke-WebRequest `
-      -Uri https://github.com/MHChlagou/aegis/releases/download/v0.2.0/aegis-windows-amd64.exe `
-      -OutFile $env:USERPROFILE\bin\aegis.exe
-    aegis version
+    iwr https://raw.githubusercontent.com/MHChlagou/aegis/main/scripts/install.ps1 -UseBasicParsing | iex
     ```
 
 ### What does not need to change on upgrade
