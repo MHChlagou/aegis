@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/ulikunitz/xz"
@@ -176,6 +177,12 @@ func assertFileMatches(t *testing.T, path, want string) {
 
 func assertExecutable(t *testing.T, path string) {
 	t.Helper()
+	// Windows doesn't carry Unix executable bits in FileMode; executability
+	// is determined by file extension, not permission bits. Skip the check
+	// rather than assert something meaningless.
+	if runtime.GOOS == "windows" {
+		return
+	}
 	st, err := os.Stat(path)
 	if err != nil {
 		t.Fatal(err)
