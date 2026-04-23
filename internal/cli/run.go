@@ -63,7 +63,7 @@ func cmdRun() *cobra.Command {
 			checks = applySkips(checks, skips, spec, cmd.ErrOrStderr())
 
 			// Resolve required binaries up front so we fail fast on missing/mismatched.
-			res := resolve.New(root, spec.Binaries, spec.StrictVers)
+			res := newResolverWithPinFallback(root, spec.Binaries, spec.StrictVers)
 			if err := preflightBinaries(checks, res, spec); err != nil {
 				fpln(cmd.ErrOrStderr(), "✖", err)
 				os.Exit(report.ExitBinaryResolve)

@@ -13,7 +13,6 @@ import (
 	"github.com/MHChlagou/aegis/internal/detect"
 	"github.com/MHChlagou/aegis/internal/filter"
 	"github.com/MHChlagou/aegis/internal/finding"
-	"github.com/MHChlagou/aegis/internal/resolve"
 	"github.com/MHChlagou/aegis/internal/runner"
 )
 
@@ -31,7 +30,7 @@ func cmdBaseline() *cobra.Command {
 			defer cancel()
 			staged, _ := detect.StagedFiles(ctx, root)
 			proj, _ := detect.Detect(root, nil, spec.Scope.ExcludePaths, staged)
-			res := resolve.New(root, spec.Binaries, spec.StrictVers)
+			res := newResolverWithPinFallback(root, spec.Binaries, spec.StrictVers)
 			reg := checker.Registry()
 			checks := []string{"secrets", "malicious_code", "dependencies"}
 			mkIn := func(name string) checker.CheckInput {

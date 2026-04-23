@@ -1,0 +1,170 @@
+# Embedded scanner pin database.
+#
+# Every entry declares, for one scanner at one version on one platform:
+#   - the upstream release asset URL (must be HTTPS + host-allowlisted)
+#   - archive_sha256: hash of the asset as downloaded (verified by
+#                     `aegis install` before extraction)
+#   - binary_sha256:  hash of the extracted executable on disk (verified
+#                     by the resolver every time the scanner is invoked)
+#   - how to extract the binary (archive type + binary name)
+#
+# For archive: raw scanners, archive_sha256 == binary_sha256. For tar.gz,
+# tar.xz, zip they differ, and both must be pinned for end-to-end
+# verification. Placeholder (all-zero) hashes cause the installer and the
+# resolver to refuse; populate them via `go run ./scripts/refresh-pins.go`.
+#
+# Platform keys use Go's runtime.GOOS + "_" + runtime.GOARCH.
+
+scanners:
+  gitleaks:
+    versions:
+      "8.28.0":
+        archive: tar.gz
+        binary: gitleaks
+        platforms:
+          linux_amd64:
+            url: "https://github.com/gitleaks/gitleaks/releases/download/v8.28.0/gitleaks_8.28.0_linux_x64.tar.gz"
+            archive_sha256: "a65b5253807a68ac0cafa4414031fd740aeb55f54fb7e55f386acb52e6a840eb"
+            binary_sha256: "5fd1b3b0073269484d40078662e921d07427340ab9e6ed526ccd215a565b3298"
+          linux_arm64:
+            url: "https://github.com/gitleaks/gitleaks/releases/download/v8.28.0/gitleaks_8.28.0_linux_arm64.tar.gz"
+            archive_sha256: "eff65261156100e5d94a6b3dec313d532fddfe19ae1590bf7a2b4f2699128356"
+            binary_sha256: "3770c7ebeb625e3e96c183525ca18285a01aedef2d75a2c41ceb3e141af2e8b7"
+          darwin_amd64:
+            url: "https://github.com/gitleaks/gitleaks/releases/download/v8.28.0/gitleaks_8.28.0_darwin_x64.tar.gz"
+            archive_sha256: "edf5a507008b0d2ef4959575772772770586409c1f6f74dabf19cbe7ec341ced"
+            binary_sha256: "cf09ad7a85683d90221db8324f036f23c8c29107145e1fc4a0dffbfa9e89c09a"
+          darwin_arm64:
+            url: "https://github.com/gitleaks/gitleaks/releases/download/v8.28.0/gitleaks_8.28.0_darwin_arm64.tar.gz"
+            archive_sha256: "d942f3ad147250c9edbaab3fed9e482f98d3b59ba10ae97b8d75647e3ade492c"
+            binary_sha256: "5588b5d942dffa048720f7e6e1d274283219fb5722a2c7564d22e83ba39087d7"
+
+  opengrep:
+    versions:
+      "1.4.0":
+        archive: raw
+        binary: opengrep
+        platforms:
+          linux_amd64:
+            url: "https://github.com/opengrep/opengrep/releases/download/v1.4.0/opengrep_manylinux_x86"
+            archive_sha256: "39c60849673286c58867d03f5c33a7d4627e04dccb73c9ee38252c865c7e6955"
+            binary_sha256: "39c60849673286c58867d03f5c33a7d4627e04dccb73c9ee38252c865c7e6955"
+          linux_arm64:
+            url: "https://github.com/opengrep/opengrep/releases/download/v1.4.0/opengrep_manylinux_aarch64"
+            archive_sha256: "fb0b30feb1933709a00c839bfda90cba4f09e8834085b680ebea27da9108decd"
+            binary_sha256: "fb0b30feb1933709a00c839bfda90cba4f09e8834085b680ebea27da9108decd"
+          darwin_arm64:
+            url: "https://github.com/opengrep/opengrep/releases/download/v1.4.0/opengrep_osx_arm64"
+            archive_sha256: "1cf75e441bfa177bc7a6dca399823d3f47ecc283c52957243fff875144517ad6"
+            binary_sha256: "1cf75e441bfa177bc7a6dca399823d3f47ecc283c52957243fff875144517ad6"
+
+  osv-scanner:
+    versions:
+      "2.0.3":
+        archive: raw
+        binary: osv-scanner
+        platforms:
+          linux_amd64:
+            url: "https://github.com/google/osv-scanner/releases/download/v2.0.3/osv-scanner_linux_amd64"
+            archive_sha256: "9acf365f60abd1c8cefeea4db897b0a6afdfe1e1f56776f634bc7bce64be5149"
+            binary_sha256: "9acf365f60abd1c8cefeea4db897b0a6afdfe1e1f56776f634bc7bce64be5149"
+          linux_arm64:
+            url: "https://github.com/google/osv-scanner/releases/download/v2.0.3/osv-scanner_linux_arm64"
+            archive_sha256: "de20c4334325937a6cef9534967c83e2e77362654d71c66c2709f8108ec587ea"
+            binary_sha256: "de20c4334325937a6cef9534967c83e2e77362654d71c66c2709f8108ec587ea"
+          darwin_amd64:
+            url: "https://github.com/google/osv-scanner/releases/download/v2.0.3/osv-scanner_darwin_amd64"
+            archive_sha256: "a8580cf56fe24c2a41b902c371d2faa450a6c8011708fc91483aac27d2c10c8e"
+            binary_sha256: "a8580cf56fe24c2a41b902c371d2faa450a6c8011708fc91483aac27d2c10c8e"
+          darwin_arm64:
+            url: "https://github.com/google/osv-scanner/releases/download/v2.0.3/osv-scanner_darwin_arm64"
+            archive_sha256: "e32f6144d2a49ae68321b3827270f8fd1cf5d226d6938ea1090f1aefd209cef7"
+            binary_sha256: "e32f6144d2a49ae68321b3827270f8fd1cf5d226d6938ea1090f1aefd209cef7"
+
+  biome:
+    versions:
+      "1.9.4":
+        archive: raw
+        binary: biome
+        platforms:
+          linux_amd64:
+            url: "https://github.com/biomejs/biome/releases/download/cli%2Fv1.9.4/biome-linux-x64"
+            archive_sha256: "ce247fb644999ef52e5111dd6fd6e471019669fc9c4a44b5699721e39b7032c3"
+            binary_sha256: "ce247fb644999ef52e5111dd6fd6e471019669fc9c4a44b5699721e39b7032c3"
+          linux_arm64:
+            url: "https://github.com/biomejs/biome/releases/download/cli%2Fv1.9.4/biome-linux-arm64"
+            archive_sha256: "f0f0f3e7cdec78420a600b05bfc364aa9b804811bd3bbae04e7bf090828ae970"
+            binary_sha256: "f0f0f3e7cdec78420a600b05bfc364aa9b804811bd3bbae04e7bf090828ae970"
+          darwin_amd64:
+            url: "https://github.com/biomejs/biome/releases/download/cli%2Fv1.9.4/biome-darwin-x64"
+            archive_sha256: "ea7b814a783fe2333a88dc12c13ae716033df23db78a110b761ad974cf567ba8"
+            binary_sha256: "ea7b814a783fe2333a88dc12c13ae716033df23db78a110b761ad974cf567ba8"
+          darwin_arm64:
+            url: "https://github.com/biomejs/biome/releases/download/cli%2Fv1.9.4/biome-darwin-arm64"
+            archive_sha256: "c68f2cbe09e9485426a749353a155b1d22c130c6ccdadc7772d603eb247b9a9d"
+            binary_sha256: "c68f2cbe09e9485426a749353a155b1d22c130c6ccdadc7772d603eb247b9a9d"
+
+  ruff:
+    versions:
+      "0.7.0":
+        archive: tar.gz
+        binary: ruff
+        platforms:
+          linux_amd64:
+            url: "https://github.com/astral-sh/ruff/releases/download/0.7.0/ruff-x86_64-unknown-linux-gnu.tar.gz"
+            archive_sha256: "625728da565048405ae770c4f6308878e6ac4efd9cdad715bbd6b0b1b16ed683"
+            binary_sha256: "6148a7b3c8274425d72d3dbd03a99da220cfcfb502d125198b72f409d34ec2d5"
+          linux_arm64:
+            url: "https://github.com/astral-sh/ruff/releases/download/0.7.0/ruff-aarch64-unknown-linux-gnu.tar.gz"
+            archive_sha256: "1297dac310907fed6e861f19f0171753e702cab361a17d4c29d84db5cd88801b"
+            binary_sha256: "4b17d68d00ff82f43153b923af96130d500c6cb47d41c14d6dd7d9cf285e5895"
+          darwin_amd64:
+            url: "https://github.com/astral-sh/ruff/releases/download/0.7.0/ruff-x86_64-apple-darwin.tar.gz"
+            archive_sha256: "1848e227ce7476009141fa427a5db941934349ef01ca5e2835ffd7df7b8a2761"
+            binary_sha256: "bbf25850d18f1ee7a239ed269e0ff57051c717c46281a2e34c742fd4a3baa04c"
+          darwin_arm64:
+            url: "https://github.com/astral-sh/ruff/releases/download/0.7.0/ruff-aarch64-apple-darwin.tar.gz"
+            archive_sha256: "8a5815e81d225107ce6be5e441d2e17c9503ddea7e01a4a11189462b533c9f31"
+            binary_sha256: "8848ae2af3eb4ba92ce30d010842a4421be56e251a3cec655a815b8638aa1481"
+
+  golangci-lint:
+    versions:
+      "1.61.0":
+        archive: tar.gz
+        binary: golangci-lint
+        platforms:
+          linux_amd64:
+            url: "https://github.com/golangci/golangci-lint/releases/download/v1.61.0/golangci-lint-1.61.0-linux-amd64.tar.gz"
+            archive_sha256: "77cb0af99379d9a21d5dc8c38364d060e864a01bd2f3e30b5e8cc550c3a54111"
+            binary_sha256: "a51b559c81b3de2abc9ea84c1547faa0c661debc8356621211d6a0b84b741af9"
+          linux_arm64:
+            url: "https://github.com/golangci/golangci-lint/releases/download/v1.61.0/golangci-lint-1.61.0-linux-arm64.tar.gz"
+            archive_sha256: "af60ac05566d9351615cb31b4cc070185c25bf8cbd9b09c1873aa5ec6f3cc17e"
+            binary_sha256: "0b42552d13e31d9a03e50b16e56a7011e19077a73e2352e237ff56f6c2d2073e"
+          darwin_amd64:
+            url: "https://github.com/golangci/golangci-lint/releases/download/v1.61.0/golangci-lint-1.61.0-darwin-amd64.tar.gz"
+            archive_sha256: "5c280ef3284f80c54fd90d73dc39ca276953949da1db03eb9dd0fbf868cc6e55"
+            binary_sha256: "a36be261dfb0a31005920fd0f9d09a6266782a3c7d2dff4450963dac101687b9"
+          darwin_arm64:
+            url: "https://github.com/golangci/golangci-lint/releases/download/v1.61.0/golangci-lint-1.61.0-darwin-arm64.tar.gz"
+            archive_sha256: "544334890701e4e04a6e574bc010bea8945205c08c44cced73745a6378012d36"
+            binary_sha256: "46149b78313d167dafed5ba44e54b904ba0e74be65d0183b2fe2104ac69e2fd1"
+
+  shellcheck:
+    versions:
+      "0.10.0":
+        archive: tar.xz
+        binary: shellcheck
+        platforms:
+          linux_amd64:
+            url: "https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellcheck-v0.10.0.linux.x86_64.tar.xz"
+            archive_sha256: "6c881ab0698e4e6ea235245f22832860544f17ba386442fe7e9d629f8cbedf87"
+            binary_sha256: "f35ae15a4677945428bdfe61ccc297490d89dd1e544cc06317102637638c6deb"
+          linux_arm64:
+            url: "https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellcheck-v0.10.0.linux.aarch64.tar.xz"
+            archive_sha256: "324a7e89de8fa2aed0d0c28f3dab59cf84c6d74264022c00c22af665ed1a09bb"
+            binary_sha256: "4111c09318d10b93653a42179381273f31061b34987978346fbd19a6e81a74c3"
+          darwin_amd64:
+            url: "https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellcheck-v0.10.0.darwin.x86_64.tar.xz"
+            archive_sha256: "ef27684f23279d112d8ad84e0823642e43f838993bbb8c0963db9b58a90464c2"
+            binary_sha256: "3fc3ee1458b70da5627af5de97c2adbe7f15ea994c0bfb351a1ddf75526cd4a0"

@@ -29,10 +29,20 @@ type ResolvedBinary struct {
 	InstallHint  string
 }
 
+// PinLookup is the narrow interface the resolver uses to fall back to a
+// shipped pin database (e.g. internal/installer.Registry) when the user's
+// aegis.yaml has no sha256 entry for a given scanner/platform. Returning
+// "" means "no pinned hash available"; callers then apply their usual
+// strict/permissive handling.
+type PinLookup interface {
+	LookupHash(scanner, version, platform string) string
+}
+
 type Resolver struct {
 	repoRoot string
 	binaries map[string]config.Binary
 	strict   bool
+	pins     PinLookup
 
 	mu    sync.Mutex
 	cache map[string]*ResolvedBinary
@@ -45,6 +55,13 @@ func New(repoRoot string, binaries map[string]config.Binary, strict bool) *Resol
 		strict:   strict,
 		cache:    map[string]*ResolvedBinary{},
 	}
+}
+
+// SetPinFallback installs a secondary source for expected hashes. It is
+// only consulted when the user's aegis.yaml leaves a (scanner, platform)
+// hash empty — any explicit user pin takes precedence.
+func (r *Resolver) SetPinFallback(p PinLookup) {
+	r.pins = p
 }
 
 // Resolve locates and verifies the named binary. Results are memoized for the
@@ -71,6 +88,9 @@ func (r *Resolver) Resolve(name string) (*ResolvedBinary, error) {
 	}
 	platformKey := runtime.GOOS + "_" + runtime.GOARCH
 	expected := spec.SHA256[platformKey]
+	if expected == "" && r.pins != nil {
+		expected = r.pins.LookupHash(name, spec.Version, platformKey)
+	}
 	rb := &ResolvedBinary{
 		Name:         name,
 		Path:         path,
