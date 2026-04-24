@@ -1,25 +1,29 @@
 name: Docs
 
-# Builds the MkDocs-Material site and publishes it to gh-pages via mike,
-# which mkdocs.yml's extra.version.provider expects. Two deploy paths:
+# Builds the MkDocs-Material site and publishes versioned docs to gh-pages
+# via mike (mkdocs.yml's extra.version.provider). Policy:
 #
-#   - Push to main with docs/** changes  -> deploy "dev" alias (in-progress)
-#   - Tag push v*                        -> deploy <version> + update "latest"
+#   - PR touching docs/** or this workflow -> build-only (validation)
+#   - Push to main                         -> build-only (validation)
+#   - Tag push v*                          -> mike deploy <version> + latest
 #
-# All third-party actions are SHA-pinned to audited versions. No
-# user-controlled event fields are interpolated into run: steps.
+# Intentionally no "dev" / "main" moving aliases: the version dropdown in
+# the docs header only ever shows tagged releases, so visitors can't land
+# on a stale moving target.
 #
-# One-time setup required after merging this workflow:
+# All third-party actions are SHA-pinned. No user-controlled event fields
+# are interpolated into run: steps.
+#
+# One-time GitHub setup (done once; this workflow assumes it is in place):
 #   Settings -> Pages -> Source: "Deploy from a branch" -> gh-pages, /(root)
-# (mike pushes to gh-pages directly; native Pages deploy is no longer used.)
 
 on:
   push:
-    # Intentionally no `paths:` filter here. paths: applies to both
-    # branch AND tag pushes in GitHub Actions, which would skip tag-push
-    # deploys whenever the release commit doesn't happen to touch docs/**.
-    # Tag pushes must always deploy a versioned snapshot. Main pushes pay
-    # a small "build always" cost, which is fine — the build job is fast.
+    # No `paths:` filter here — it applies to both branch AND tag pushes
+    # in GitHub Actions, and skipping a tag push whenever the release
+    # commit happens to leave docs/** untouched would silently drop the
+    # versioned deploy. Main-branch pushes pay a small "build always"
+    # cost, which is fine; the build job is fast.
     branches: [main]
     tags: ["v*"]
   pull_request:
@@ -66,9 +70,11 @@ jobs:
     name: Deploy via mike
     runs-on: ubuntu-latest
     needs: build
-    # Skip on PRs (no write access to gh-pages anyway). Run on main pushes
-    # and on tag pushes.
-    if: github.event_name != 'pull_request'
+    # Tag pushes only. Covers both `push` (actual release tag push) and
+    # `workflow_dispatch` when the run is dispatched from a tag ref —
+    # anything dispatched from a branch keeps ref_type=branch and is
+    # skipped, which is the right behaviour for a tag-only deploy.
+    if: github.ref_type == 'tag'
     permissions:
       contents: write   # mike pushes to gh-pages
     steps:
@@ -95,20 +101,14 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Deploy with mike
+      - name: Deploy tagged version
         working-directory: docs
         env:
-          REF_TYPE: ${{ github.ref_type }}
           REF_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          if [ "$REF_TYPE" = "tag" ]; then
-            # Strip the leading 'v': v0.2.4 -> 0.2.4. The doc URLs become
-            # /lintel/0.2.4/... and /lintel/latest/... (alias).
-            version="${REF_NAME#v}"
-            mike deploy --push --update-aliases "$version" latest
-            mike set-default --push latest
-          else
-            # main / workflow_dispatch: refresh the in-progress alias.
-            mike deploy --push --update-aliases dev
-          fi
+          # Strip the leading 'v': v0.2.5 -> 0.2.5. The doc URLs become
+          # /lintel/0.2.5/... and /lintel/latest/... (alias).
+          version="${REF_NAME#v}"
+          mike deploy --push --update-aliases "$version" latest
+          mike set-default --push latest
