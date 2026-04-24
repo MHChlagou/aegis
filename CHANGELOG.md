@@ -7,6 +7,62 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-04-24
+
+Closes a gap in the `secrets` check where gitleaks' default ruleset
+silently missed hardcoded credentials in declarative config files
+(Dockerfile `ENV pass=Admin124`, `.env` files, `docker-compose.yml`,
+Kubernetes manifests, Spring / Java properties, etc.). Gitleaks
+optimises for precision on source code and backs off on short or
+low-entropy values — lintel now fills that gap with a second,
+config-file-aware pass that runs inside the same `secrets` check.
+
+### Added
+
+- Config-secret scanner (`engine: lintel-config`) running alongside
+  gitleaks inside the `secrets` check. Targets declarative config
+  files where hardcoded credentials are almost always a mistake:
+  - `.env` and `.env.*` (excluding `.example` / `.sample` /
+    `.template` / `.dist` / `.tmpl` variants),
+  - `Dockerfile`, `Dockerfile.*`, `*.Dockerfile`,
+  - `docker-compose*.{yml,yaml}`, `compose*.{yml,yaml}`,
+  - `*.properties` (Java / Spring),
+  - `*.yaml` / `*.yml` (covers Kubernetes, Helm, Ansible, Spring,
+    GitHub Actions, GitLab CI, etc.),
+  - `*.toml`, `*.ini`, `*.cfg`, `*.conf`, `*.json` (with a blocklist
+    for known-noisy manifests such as `package.json`,
+    `package-lock.json`, `tsconfig.json`),
+  - `*.tf`, `*.tfvars`, `*.hcl` (Terraform / HCL),
+  - `Jenkinsfile`, `ansible.cfg`.
+- Keyword-based key detection matches case-insensitively on a
+  `_`-bounded suffix, so `DB_PASSWORD`, `spring.datasource.password`,
+  `my-app-secret`, and `awsAccessKey` (camelCase normalised) all hit
+  while `passport`, `bypass`, and `compass` do not. Covered keywords:
+  `password`, `passwd`, `passphrase`, `pwd`, `pass`, `secret`,
+  `token`, `credential[s]`, `api_key` / `apikey`, `access_key` /
+  `accesskey`, `private_key` / `privatekey` / `priv_key`, `auth`,
+  `authorization`, `bearer`.
+- Placeholder filtering to keep false positives down: skips
+  `${VAR}` / `$VAR` / `$(cmd)` / `%(py)s` interpolation,
+  `!vault` ansible-vault refs, `<no value>` Helm defaults,
+  bracketed templates (`<password>`, `[secret]`, `{{.Password}}`),
+  and a curated literal list (`changeme`, `xxx`, `your-password`,
+  `null`, `todo`, `tbd`, `example`, `placeholder`, `redacted`, …).
+- Kubernetes / Helm `env:` list-shape pairing — pairs
+  `- name: DB_PASSWORD` with a subsequent `value: "Admin124"` within
+  a 5-line window and runs the pair through the same policy. Catches
+  a common pod-spec leak pattern that per-line scanning misses.
+- Findings emit `engine: lintel-config` and rule IDs under
+  `lintel.config-secret.<keyword>` (e.g. `lintel.config-secret.pass`,
+  `lintel.config-secret.api_key`) so users can target them in
+  allowlists and baselines independently of gitleaks rules.
+
+### Security
+
+- Values in reported findings are always redacted before display
+  (`****` for short values, `FIRST4****LAST4` for longer ones),
+  matching the redaction policy already used on gitleaks output.
+
 ## [0.2.0] - 2026-04-23
 
 Adds a verified scanner installer so users no longer have to hand-pin
@@ -141,6 +197,7 @@ per job.
 - External scanner binaries per your `lintel.yaml`. Lintel coordinates them
   but does not bundle or download them - install and pin each one you use.
 
-[Unreleased]: https://github.com/MHChlagou/lintel/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/MHChlagou/lintel/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/MHChlagou/lintel/releases/tag/v0.2.1
 [0.2.0]: https://github.com/MHChlagou/lintel/releases/tag/v0.2.0
 [0.1.0]: https://github.com/MHChlagou/lintel/releases/tag/v0.1.0

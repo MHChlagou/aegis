@@ -102,6 +102,11 @@ func (s Secrets) runGitleaks(ctx context.Context, in CheckInput, start time.Time
 			Engine:   "gitleaks",
 		})
 	}
+	// Config-file pass: catches hardcoded credentials gitleaks deliberately
+	// skips (low-entropy values in Dockerfile / .env / docker-compose).
+	if extra, err := scanConfigSecrets(ctx, in); err == nil {
+		findings = append(findings, extra...)
+	}
 	return CheckOutput{
 		Findings: findings,
 		Stats:    Stats{DurationMS: msSince(start), FilesScanned: len(in.StagedFiles)},
