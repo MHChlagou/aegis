@@ -9,6 +9,8 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/bmatcuk/doublestar/v4"
+
 	"github.com/MHChlagou/lintel/internal/finding"
 )
 
@@ -41,8 +43,16 @@ func scanConfigSecrets(ctx context.Context, in CheckInput) ([]finding.Finding, e
 		}
 	}
 
+	var excludes []string
+	if in.Spec != nil {
+		excludes = in.Spec.Scope.ExcludePaths
+	}
+
 	var out []finding.Finding
 	for _, rel := range files {
+		if isExcludedPath(rel, excludes) {
+			continue
+		}
 		kind, ok := isConfigSecretTarget(rel)
 		if !ok {
 			continue
@@ -54,6 +64,18 @@ func scanConfigSecrets(ctx context.Context, in CheckInput) ([]finding.Finding, e
 		out = append(out, scanConfigLines(rel, kind, content)...)
 	}
 	return out, nil
+}
+
+// isExcludedPath honors spec.scope.exclude_paths globs (doublestar syntax)
+// so test fixtures and known-noisy directories don't get scanned. Uses the
+// same matcher as detect/gate/filter for consistent semantics across checks.
+func isExcludedPath(path string, patterns []string) bool {
+	for _, p := range patterns {
+		if m, _ := doublestar.PathMatch(p, path); m {
+			return true
+		}
+	}
+	return false
 }
 
 // listTrackedFiles enumerates every file recorded at HEAD, NUL-delimited so

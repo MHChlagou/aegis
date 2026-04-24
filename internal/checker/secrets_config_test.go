@@ -6,6 +6,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"testing"
+
+	"github.com/MHChlagou/lintel/internal/config"
 )
 
 func TestShouldFlagAssignment(t *testing.T) {
@@ -231,6 +233,29 @@ func TestScanConfigSecrets_PrePushFallback(t *testing.T) {
 	}
 	if got[0].File != "Dockerfile" {
 		t.Errorf("file: got %q, want Dockerfile", got[0].File)
+	}
+}
+
+// TestScanConfigSecrets_HonorsExcludePaths verifies scope.exclude_paths is
+// applied so test fixtures and known-noisy directories don't trigger false
+// positives. The bug this guards: lintel-action's CI scanning its own test
+// workflow whose heredoc contains an intentional `ENV pass=Admin124` for
+// the negative-test fixture.
+func TestScanConfigSecrets_HonorsExcludePaths(t *testing.T) {
+	root := initRepoWithDockerfile(t, "FROM node:20\nENV pass=Admin124\nCMD [\"node\"]\n")
+	got, err := scanConfigSecrets(context.Background(), CheckInput{
+		RepoRoot:    root,
+		StagedFiles: nil,
+		Hook:        "pre-push",
+		Spec: &config.Spec{Scope: config.Scope{
+			ExcludePaths: []string{"Dockerfile"},
+		}},
+	})
+	if err != nil {
+		t.Fatalf("scanConfigSecrets: %v", err)
+	}
+	if len(got) != 0 {
+		t.Errorf("Dockerfile excluded by glob; want 0 findings, got %d: %+v", len(got), got)
 	}
 }
 

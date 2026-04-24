@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-04-24
+
+The config-secret scanner shipped in 0.2.1–0.2.3 didn't honor
+`scope.exclude_paths`, so test fixtures and other intentionally
+dirty files couldn't be excluded the way they can for every other
+check. Surfaced when `lintel-action`'s self-scan flagged the
+`ENV pass=...` heredoc inside its own test workflow.
+
+This release also wires the docs site up to mike so the version
+selector in the docs header tracks the released version automatically
+instead of staying frozen at a hand-deployed snapshot.
+
+### Fixed
+
+- `scope.exclude_paths` globs (doublestar syntax) are now honored
+  by the config-secret scanner, matching the behaviour of
+  `malicious_code` (opengrep), the project detector, and the
+  baseline / allowlist filters. Files matching any pattern are
+  skipped before any reading or parsing happens.
+
+### Changed
+
+- Docs site now publishes via `mike` (already configured in
+  `mkdocs.yml` as `extra.version.provider`). The `docs.yml`
+  workflow deploys versioned snapshots to `gh-pages` on tag pushes
+  (`<version>` + `latest` alias) and refreshes a `dev` alias on
+  main pushes that touch `docs/**`. The native
+  `actions/deploy-pages` flow has been removed because the two
+  publish mechanisms can't coexist.
+
+  **Operator action required after upgrading:** in the GitHub repo
+  Settings → Pages, switch *Source* from "GitHub Actions" to
+  "Deploy from a branch" → `gh-pages` → `/(root)`. The workflow
+  needs `contents: write` to push to `gh-pages`.
+
 ## [0.2.3] - 2026-04-24
 
 Fixes a silent-fail in the config-secret scanner shipped in 0.2.1: in
@@ -243,7 +278,8 @@ per job.
 - External scanner binaries per your `lintel.yaml`. Lintel coordinates them
   but does not bundle or download them - install and pin each one you use.
 
-[Unreleased]: https://github.com/MHChlagou/lintel/compare/v0.2.3...HEAD
+[Unreleased]: https://github.com/MHChlagou/lintel/compare/v0.2.4...HEAD
+[0.2.4]: https://github.com/MHChlagou/lintel/releases/tag/v0.2.4
 [0.2.3]: https://github.com/MHChlagou/lintel/releases/tag/v0.2.3
 [0.2.2]: https://github.com/MHChlagou/lintel/releases/tag/v0.2.2
 [0.2.1]: https://github.com/MHChlagou/lintel/releases/tag/v0.2.1
